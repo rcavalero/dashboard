@@ -1,3 +1,4 @@
+
 $(document).ready(function(){
 
 
@@ -158,4 +159,12 @@ function getCurrWeather(location) {
     // todo - need to determine how often we want to update stock and other pulled data 
         // window.setInterval(getStockInfo, 60 * 1000);
     
+=======
+/* Inspirational Quote */
+
+var urlRandomQuote = "https://quote-garden.herokuapp.com/quotes/random";
+$.when($.get(urlRandomQuote)).then(randomQuote => {
+  console.log("Quote: ", randomQuote.quoteText);
+  console.log("Author: ", randomQuote.quoteAuthor || "Unknown");
+  
 });
