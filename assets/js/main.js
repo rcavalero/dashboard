@@ -135,7 +135,7 @@ function getCurrWeather(location) {
         })
         .then(function(response) {
             var currWeatherData = response.data[0]
-        console.log(currWeatherData);
+        // console.log(currWeatherData);
     
             var wState = currWeatherData.state_code;
             var wCity = currWeatherData.city_name;
@@ -164,6 +164,7 @@ var urlRandomQuote = "https://quote-garden.herokuapp.com/quotes/random";
 $.when($.get(urlRandomQuote)).then(randomQuote => {
   console.log("Quote: ", randomQuote.quoteText);
   console.log("Author: ", randomQuote.quoteAuthor || "Unknown");
+});
   
 /* News Feeds */
 
