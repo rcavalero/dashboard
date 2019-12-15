@@ -24,7 +24,7 @@
           <header>
             <div class="row">
               <div class="col s12">
-                <div class="card teal">
+                <div class="card deep-purple darken-4">
                   <div class="card-title center-align">
                     Task Manager
                   </div>
@@ -32,7 +32,7 @@
               </div>
             </div>
           </header>
-          
+
           <!-- sidebar task div -->
           <div class="main">
             <div class="row">
@@ -40,23 +40,23 @@
                 <table>
                   <tbody>
                     <tr class="firstTask">
-                      <td><a class="btn-floating btn-medium waves-effect waves-light teal" id="addTaskButton"><i
-                        class="material-icons">add</i></a></td>
-                        <td><input type="text" id="taskInput" placeholder="Enter task.."></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div id="add-task-here"></div>
-                </div>
+                      <td><a class="btn-floating btn-medium waves-effect waves-light deep-purple darken-4"
+                          id="addTaskButton"><i class="material-icons">add</i></a></td>
+                      <td><input class="right-align" type="text" id="taskInput" placeholder="enter task"></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div id="add-task-here"></div>
               </div>
             </div>
           </div>
+        </div>
 
         <!-- sidebar footer news/stocks -->
         <div class="footer">
           <div class="row footy">
             <div class="col s12">
-              <div class="card teal">
+              <div class="card deep-purple darken-4">
                 <div class="card-title center-align">footy</div>
               </div>
             </div>
@@ -68,9 +68,49 @@
       </div>
 
       <!-- main content -->
-      <div class="col m9 purple">hi</div>
-    </div>
+      <div class="col m9 main">
+        <!-- amazon search row -->
+        <div class="main-content">
+          <header>
+            <div class="row" id="search-bar">
+              <div class="col s4 offset-s4">
+                <div class="card deep-purple darken-4 center-align search-amazon">
+                  <input class="center-align" type="text" id="search-amazon" placeholder="amazon.com">
+                </div>
+              </div>
+            </div>
+          </header>
+          <!-- moment row -->
+          <main>
+            <div class="row" id="momentRow">
+              <div class="col s4 offset-s4" id="moment">
+                <!-- moment data magiced here -->
+              </div>
+            </div>
+          </main>
+        </div>
 
+        <!-- weather row -->
+        <footer>
+          <div class="row weather-row">
+            <div class="col s3 offset-s9">
+              <div class="card purple" id="weather-box">
+                <div class="card-body weather-card">
+                  <div class="card-title weather-card">
+                    wx
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+
+
+      </div>
+
+
+
+    </div>
   </div>
   <!-- main container close above -->
 
