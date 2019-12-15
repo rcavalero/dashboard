@@ -1,0 +1,13 @@
+.sidebar-content {
+  display: flex;
+  min-height: 94vh;
+  flex-direction: column;
+}
+
+.task {
+  margin-left: 600px;
+}
+
+.footer {
+  flex: 1 0 auto;
+}
