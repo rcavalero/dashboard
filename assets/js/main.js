@@ -7,11 +7,15 @@ $(function () {
   addTask();
   searchAmazon();
   grabMoment();
+  $('.date').text(moment().format('ddd, MMM Do'));
+
+
+  // $('#mainContainer').hide();
+
 
   function addTask() {
     $('#taskInput').keyup(function (e) {
       if (e.keyCode === 13) {
-        console.log(this);
         $('#addTaskButton').click();
       }
     })
@@ -20,7 +24,6 @@ $(function () {
       let taskInput = $('#taskInput').val().toLowerCase();
 
       if (!taskInput) {
-        console.log('whoops');
         return;
       }
 
@@ -40,9 +43,9 @@ $(function () {
       e.preventDefault();
       icon.text('check_circle');
       // not working
-      console.log(this);
+      console.log($(this).attr('id'));
       // localStorage.removeItem(e.attr('id'));
-      // setTimeout(removeTask(newDiv), 5000);
+      // setTimeout($(this.remove()), 2000);
     });
 
     let col2 = $('<div class="col s10">');
@@ -86,7 +89,6 @@ $(function () {
     let time = $('<div class="card-title center-align" id=time>');
     time.text(moment().format('h:mm'));
     momentBox.append(innerMomentBox.append(time));
-    console.log(momentBox);
     $('#moment').append(momentBox);
   }
 
