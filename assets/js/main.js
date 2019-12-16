@@ -1,108 +1,112 @@
 let taskInput;
 
 $(function () {
-
-
-
   // materialize init
   M.AutoInit();
   fillSavedTask();
   addTask();
   searchAmazon();
   grabMoment();
-  $('.date').text(moment().format('ddd, MMM Do'));
+  $(".date").text(moment().format("ddd, MMM Do"));
   removeTask();
 
   function addTask() {
-    $('#taskInput').keyup(function (e) {
+    $("#taskInput").keyup(function (e) {
       if (e.keyCode === 13) {
-        $('#addTaskButton').click();
+        $("#addTaskButton").click();
       }
-    })
-    $('#addTaskButton').click(function (e) {
+    });
+    $("#addTaskButton").click(function (e) {
       e.preventDefault();
-      let taskInput = $('#taskInput').val().toLowerCase();
+      let taskInput = $("#taskInput")
+        .val()
+        .toLowerCase();
 
       if (!taskInput) {
         return;
       }
       buildTask(taskInput);
       addToLocalStorage(taskInput);
-    })
+    });
   }
 
   // moved from below
   function buildTask(word) {
-    let place = localStorage.length;
     let newDiv = $('<div class="row valign-wrapper task">');
     let col1 = $('<div class="col center-align s2">');
     let icon = $(`<i class="material-icons check-icon">`);
-    icon.text('panorama_fish_eye');
+    icon.text("panorama_fish_eye");
 
     col1.click(function (e) {
       e.preventDefault();
-      icon.text('check_circle');
+      icon.text("check_circle");
       // not working
       console.log(icon.next());
       // let removeLocal = icon.attr('id');
-
     });
 
     let col2 = $('<div class="col s10">');
     let input = $(`<input class=right-align type=text id=taskInput>`);
     input.val(word);
-    $('#taskInput').val('');
+    $("#taskInput").val("");
     col1.append(icon);
     col2.append(input);
     newDiv.append(col1, col2);
-    $('#add-task-here').prepend(newDiv);
+    $("#add-task-here").prepend(newDiv);
   }
 
   function searchAmazon() {
-    $('#search-amazon').keyup(function (e) {
-      let searchItem = $('#search-amazon').val();
+    $("#search-amazon").keyup(function (e) {
+      let searchItem = $("#search-amazon").val();
       if (e.keyCode === 13 && searchItem) {
-        let url = `https://www.amazon.com/s?k=${searchItem}`
-        window.open(url, '_blank');
-        $('#search-amazon').val('');
+        let url = `https://www.amazon.com/s?k=${searchItem}`;
+        window.open(url, "_blank");
+        $("#search-amazon").val("");
       }
-    })
+    });
   }
 
   function grabMoment() {
     let momentBox = $('<div class="card z-depth-0" id=momentBox>');
-    let innerMomentBox = $('<div class=card-body id=innerMomentBox>');
+    let innerMomentBox = $("<div class=card-body id=innerMomentBox>");
     let time = $('<div class="card-title center-align" id=time>');
     setInterval(() => {
-      time.text(moment().format('h:mm'));
+      time.text(moment().format("h:mm"));
     }, 1000);
     momentBox.append(innerMomentBox.append(time));
-    $('#moment').append(momentBox);
+    $("#moment").append(momentBox);
   }
 
   function removeTask() {
     setInterval(() => {
-      if ($(this).text() === 'check_circle') {
+      if ($(this).text() === "check_circle") {
         $(this).remove();
-
       }
-    }, 1000)
+    }, 1000);
   }
 
+  let taskArr = [];
   function addToLocalStorage(word) {
-    localStorage.setItem(localStorage.length, word);
+    // taskArr = JSON.parse(localStorage.getItem('taskData'));
+    taskArr.push(word);
+    localStorage.setItem('taskData', JSON.stringify(taskArr));
+    console.log(taskArr);
   }
 
   function fillSavedTask() {
-    for (let i = 0; i < localStorage.length; i++) {
-      let item = localStorage.getItem(i);
-      buildTask(item);
-      $(`#${i}`).val(item);
+    let tempArr = [];
+    tempArr = JSON.parse(localStorage.getItem('taskData'));
+    console.log(tempArr);
+
+    if(tempArr) {
+      tempArr.forEach(element => {
+        console.log(element);
+        buildTask(element);
+      })
+    } else {
+      return;
     }
   }
-
-
-
 
   // this is a global variable for tracking user data
   // it has the following fields:
@@ -118,13 +122,13 @@ $(function () {
   if (!localStorage.getItem("myDashUserData")) {
     // todo - add code to direct user to the setup page
 
-    // once the setup page is setup and has a save button, we need to delete the following line and 
+    // once the setup page is setup and has a save button, we need to delete the following line and
     // update the save button click function below
     updateUserData();
   }
 
   // if there is data in local storage it feeds to the userData global variable
-  else (getUserData());
+  else getUserData();
 
   // todo - update function based on save button info on user setup screen
   // $("save button").on("click", function(event) {
@@ -134,7 +138,6 @@ $(function () {
 
   // this will save user data in local storage from the setup page
   function updateUserData() {
-
     // this grabs data from the user setup screen
     // todo - need to update from HTML
     var setupData = $("setupDiv");
@@ -149,7 +152,6 @@ $(function () {
       // stocks: setupData.setupStocks.val().split(","),
       // news: setupData.setupNews.val(),
       // quotes: setupData.setupQuotes.val()
-
     };
     // this loads user setup data into the userData global variable stores it to local storage
     // and pulls the stock & weather info
@@ -158,8 +160,7 @@ $(function () {
     getStockInfo(userData[0].stocks);
     getCurrWeather(userData[0].weatherCity);
     // todo - add the other functions for pulling quotes and news
-
-  };
+  }
 
   // this loads existing user data into the userData global variable and pulls the stock & weather info
   function getUserData() {
@@ -169,11 +170,10 @@ $(function () {
     getCurrWeather(userData[0].weatherCity);
 
     // todo - add the other functions for pulling quotes and news
-  };
+  }
 
   // *** this pulls stock data based on the user selected symbols that are stored in local storage ***
   function getStockInfo(stocks) {
-
     // this checks if there are stocks to pull data on and returns if not
     if (!stocks) {
       return;
@@ -183,7 +183,7 @@ $(function () {
     $("#stocks").html();
 
     // this creates the rows and columns for the stock info
-    var stockTable = $("#stocks")
+    var stockTable = $("#stocks");
     var stockInfo = $("<div class=row>");
 
     var stockSymbolCol = $("<div class=col>");
@@ -196,17 +196,16 @@ $(function () {
 
     // This loops through each stock symbol and adds the info to the above columns for each stock
     stocks.forEach(function (stock) {
-
       var settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": "https://investors-exchange-iex-trading.p.rapidapi.com/stock/" + stock + "/book",
-        "method": "GET",
-        "headers": {
+        async: true,
+        crossDomain: true,
+        url: "https://investors-exchange-iex-trading.p.rapidapi.com/stock/" + stock + "/book",
+        method: "GET",
+        headers: {
           "x-rapidapi-host": "investors-exchange-iex-trading.p.rapidapi.com",
           "x-rapidapi-key": "c0593c10a5mshb8e9442c232450cp1271e5jsnaee83b8acf7c"
         }
-      }
+      };
 
       $.ajax(settings).done(function (response) {
         // console.log(response);
@@ -217,8 +216,8 @@ $(function () {
         var stockPrice = stockData.latestPrice;
         var stockChange = stockData.change;
         if (stockData.change === null) {
-          stockChange = 0.00
-        };
+          stockChange = 0.0;
+        }
 
         var stockSymbolEl = $("</p>").text(stockSymbol);
         var stockPriceEl = $("</p>").text(stockPrice);
@@ -228,16 +227,14 @@ $(function () {
         stockPriceCol.append(stockPriceEl);
         stockChangeCol.append(stockChangeEl);
       });
-
     });
-  };
+  }
 
-  // todo - getting weather data will be based on city name.  Other options include using the state, 
+  // todo - getting weather data will be based on city name.  Other options include using the state,
   // zip code or user location
   // This pulls the weather data based on user saved location
   function getCurrWeather(location) {
     console.log("getting weather");
-
 
     // this checks if there is a location
     if (!location) {
@@ -253,7 +250,7 @@ $(function () {
     }).then(function (response) {
       console.log(response);
 
-      var currWeatherData = response.data[0]
+      var currWeatherData = response.data[0];
       // // console.log(currWeatherData);
       // var wState = currWeatherData.state_code;
       // var wCity = currWeatherData.city_name;
@@ -263,29 +260,30 @@ $(function () {
 
       // this is where we will either dynamically create elements or feed the weather data to fields in the HTML
 
-        var wImage = $("<img>");
-        var temp = $("<p>");
-        wImage.attr("src", "assets/images/weatherIcons/" + wIcon + ".png");
-        wImage.attr("style", "height: 25%; width: 25%;");
-        temp.text(wTemp + " (F)");
-        temp.attr("style", "color: white;")
-        // this shows a description of the icon when you hover your mouse over the icon
-        wImage.attr("title", wDesc);
-        $("#weather-box").append(wImage).append(temp);
+      var wImage = $("<img>");
+      var temp = $("<p>");
+      wImage.attr("src", "assets/images/weatherIcons/" + wIcon + ".png");
+      wImage.attr("style", "height: 25%; width: 25%;");
+      temp.text(wTemp + " (F)");
+      temp.attr("style", "color: white;");
+      // this shows a description of the icon when you hover your mouse over the icon
+      wImage.attr("title", wDesc);
+      $("#weather-box")
+        .append(wImage)
+        .append(temp);
     });
-  };
+  }
 
-  // todo - need to determine how often we want to update stock and other pulled data 
+  // todo - need to determine how often we want to update stock and other pulled data
   // window.setInterval(getStockInfo, 60 * 1000);
 
   /* Inspirational Quote */
 
   var urlRandomQuote = "https://quote-garden.herokuapp.com/quotes/random";
-  $.when(
-    $.get(urlRandomQuote)
-  ).then(randomQuote => {
-    console.log("Quote: ", randomQuote.quoteText);
-    console.log("Author: ", randomQuote.quoteAuthor || "Unknown");
+  $.when($.get(urlRandomQuote)).then(randomQuote => {
+    const quote = $("<q>").text(randomQuote.quoteText);
+    const author = $("<cite>").text(" -" + (randomQuote.quoteAuthor || "Unknown"));
+    $("#quote-div").append(quote, author);
   });
 
   /* News Feeds */
@@ -325,19 +323,17 @@ $(function () {
   $.when($.get(urlNYTimes)).then(processNYTArticles);
 
   function processNYTArticles(response) {
+    const newsContainer = $("#news-container");
     console.log("NYT Articles");
     for (let i = 0; i < TOP; i++) {
       const result = response.results[i];
-      articlesNYT.push({ title: result.title, link: result.url });
+      const a = $("<a>");
+      a.attr("target", "_blank");
+      a.attr("href", result.url);
+      a.text(result.title);
+      newsContainer.append(a);
+      newsContainer.append($("<hr>"));
+      // articlesNYT.push({ title: result.title, link: result.url });
     }
   }
-
 });
-
-
-
-
-
-
-
-
