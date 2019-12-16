@@ -1,4 +1,4 @@
-let taskInput;
+let taskInput; let taskArr;
 
 $(function() {
   // materialize init
@@ -8,7 +8,6 @@ $(function() {
   searchAmazon();
   grabMoment();
   $(".date").text(moment().format("ddd, MMM Do"));
-  removeTask();
 
   function addTask() {
     $("#taskInput").keyup(function(e) {
@@ -18,15 +17,13 @@ $(function() {
     });
     $("#addTaskButton").click(function(e) {
       e.preventDefault();
-      let taskInput = $("#taskInput")
-        .val()
-        .toLowerCase();
+      let taskInput = $("#taskInput").val().toLowerCase();
 
       if (!taskInput) {
         return;
       }
-      buildTask(taskInput);
       addToLocalStorage(taskInput);
+      buildTask(taskInput);
     });
   }
 
@@ -40,9 +37,15 @@ $(function() {
     col1.click(function(e) {
       e.preventDefault();
       icon.text("check_circle");
-      // not working
-      console.log(icon.next());
-      // let removeLocal = icon.attr('id');
+      if (icon.text() === 'check_circle') {
+        // let help;
+        // help = $(this).siblings().children().val();
+        // console.log(help);
+        // console.log(taskArr);
+        removeTask($(this));
+        removeFromLocal($(this));
+
+      }
     });
 
     let col2 = $('<div class="col s10">');
@@ -77,21 +80,27 @@ $(function() {
     $("#moment").append(momentBox);
   }
 
-  function removeTask() {
-    setInterval(() => {
-      if ($(this).text() === "check_circle") {
-        $(this).remove();
-      }
-    }, 1000);
+  function removeTask(haha) {
+    haha.parent().remove();
   }
 
-  let taskArr;
+  function removeFromLocal(haha) {
+    let word = $(haha).siblings().children().val();
+    let temp = JSON.parse(localStorage.getItem('taskData')) || [];
+
+    let ind = temp.indexOf(word);
+    if(ind > -1) {
+      temp.splice(ind, 1);
+      localStorage.setItem('taskData', JSON.stringify(temp));
+    }
+    console.log(ind);
+
+  }
+
   function addToLocalStorage(word) {
-    taskArr = JSON.parse(localStorage.getItem("taskData"));
-    console.log(typeof taskArr);
+    taskArr = JSON.parse(localStorage.getItem('taskData')) || [];
     taskArr.push(word);
-    localStorage.setItem("taskData", JSON.stringify(taskArr));
-    console.log(taskArr);
+    localStorage.setItem('taskData', JSON.stringify(taskArr));
   }
 
   function fillSavedTask() {
@@ -107,6 +116,9 @@ $(function() {
     } else {
       return;
     }
+
+
+
   }
 
   // this is a global variable for tracking user data
@@ -145,7 +157,7 @@ $(function() {
 
     var data = {
       name: "Robert",
-      weatherCity: "seattle, wa",
+      weatherCity: "",
       stocks: ["intc", "msft", "sbux"]
 
       // name: setupData.setupName.val(),
