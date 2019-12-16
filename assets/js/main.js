@@ -1,6 +1,6 @@
 let taskInput;
 
-$(function() {
+$(function () {
   // materialize init
   M.AutoInit();
   fillSavedTask();
@@ -11,12 +11,12 @@ $(function() {
   removeTask();
 
   function addTask() {
-    $("#taskInput").keyup(function(e) {
+    $("#taskInput").keyup(function (e) {
       if (e.keyCode === 13) {
         $("#addTaskButton").click();
       }
     });
-    $("#addTaskButton").click(function(e) {
+    $("#addTaskButton").click(function (e) {
       e.preventDefault();
       let taskInput = $("#taskInput")
         .val()
@@ -32,13 +32,12 @@ $(function() {
 
   // moved from below
   function buildTask(word) {
-    let place = localStorage.length;
     let newDiv = $('<div class="row valign-wrapper task">');
     let col1 = $('<div class="col center-align s2">');
     let icon = $(`<i class="material-icons check-icon">`);
     icon.text("panorama_fish_eye");
 
-    col1.click(function(e) {
+    col1.click(function (e) {
       e.preventDefault();
       icon.text("check_circle");
       // not working
@@ -57,7 +56,7 @@ $(function() {
   }
 
   function searchAmazon() {
-    $("#search-amazon").keyup(function(e) {
+    $("#search-amazon").keyup(function (e) {
       let searchItem = $("#search-amazon").val();
       if (e.keyCode === 13 && searchItem) {
         let url = `https://www.amazon.com/s?k=${searchItem}`;
@@ -86,15 +85,26 @@ $(function() {
     }, 1000);
   }
 
+  let taskArr = [];
   function addToLocalStorage(word) {
-    localStorage.setItem(localStorage.length, word);
+    // taskArr = JSON.parse(localStorage.getItem('taskData'));
+    taskArr.push(word);
+    localStorage.setItem('taskData', JSON.stringify(taskArr));
+    console.log(taskArr);
   }
 
   function fillSavedTask() {
-    for (let i = 0; i < localStorage.length; i++) {
-      let item = localStorage.getItem(i);
-      buildTask(item);
-      $(`#${i}`).val(item);
+    let tempArr = [];
+    tempArr = JSON.parse(localStorage.getItem('taskData'));
+    console.log(tempArr);
+
+    if(tempArr) {
+      tempArr.forEach(element => {
+        console.log(element);
+        buildTask(element);
+      })
+    } else {
+      return;
     }
   }
 
@@ -185,7 +195,7 @@ $(function() {
     stockInfo.append(stockSymbolCol, stockPriceCol, stockChangeCol);
 
     // This loops through each stock symbol and adds the info to the above columns for each stock
-    stocks.forEach(function(stock) {
+    stocks.forEach(function (stock) {
       var settings = {
         async: true,
         crossDomain: true,
@@ -197,7 +207,7 @@ $(function() {
         }
       };
 
-      $.ajax(settings).done(function(response) {
+      $.ajax(settings).done(function (response) {
         // console.log(response);
 
         var stockData = response.quote;
@@ -237,7 +247,7 @@ $(function() {
     $.ajax({
       url: queryWeatherURL,
       method: "GET"
-    }).then(function(response) {
+    }).then(function (response) {
       console.log(response);
 
       var currWeatherData = response.data[0];
