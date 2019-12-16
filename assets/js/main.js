@@ -112,6 +112,7 @@ $(function () {
   // news
   // quotes
   var userData = [];
+  
 
   // this will run when the app opens to see if data exists in local storage
   // if there is no data in local storage, the user is directed to the Setup page
@@ -215,10 +216,7 @@ $(function () {
 
         var stockSymbol = stockData.symbol;
         var stockPrice = stockData.latestPrice;
-        var stockChange = stockData.change;
-        if (stockData.change === null) {
-          stockChange = 0.00
-        };
+        stockChange = stockData.latestPrice - stockData.previousClose;
 
         var stockSymbolEl = $("</p>").text(stockSymbol);
         var stockPriceEl = $("</p>").text(stockPrice);
@@ -236,7 +234,7 @@ $(function () {
   // zip code or user location
   // This pulls the weather data based on user saved location
   function getCurrWeather(location) {
-    console.log("getting weather");
+    // console.log("getting weather");
 
 
     // this checks if there is a location
@@ -244,16 +242,18 @@ $(function () {
       return;
     }
 
-    var weatherApiKey = "bfd9c7ad0abc43cf8dad5c7ec01a1bad";
+    const weatherApiKey = "bfd9c7ad0abc43cf8dad5c7ec01a1bad";
     var queryWeatherURL = "https://api.weatherbit.io/v2.0/current?city=" + location + "&units=I&key=" + weatherApiKey;
 
     $.ajax({
       url: queryWeatherURL,
       method: "GET"
     }).then(function (response) {
-      console.log(response);
+      // console.log("weather data");
+      
+      // console.log(response);
 
-      var currWeatherData = response.data[0]
+      var currWeatherData = response.data[0];
       // // console.log(currWeatherData);
       // var wState = currWeatherData.state_code;
       // var wCity = currWeatherData.city_name;
@@ -330,8 +330,14 @@ $(function () {
       const result = response.results[i];
       articlesNYT.push({ title: result.title, link: result.url });
     }
-  }
+  };
 
+// these are the timers that refresh the weather & stock data
+// weather = 1 hour; stocks = 15 minutes
+  window.setInterval(getCurrWeather, 60 * 60 * 1000);
+  window.setInterval(getStockInfo, 15 * 60 * 1000);
+
+  // this is the end of the file.  All code should be input before this line.
 });
 
 
