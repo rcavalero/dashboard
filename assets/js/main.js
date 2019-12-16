@@ -271,8 +271,9 @@ $(function() {
 
   var urlRandomQuote = "https://quote-garden.herokuapp.com/quotes/random";
   $.when($.get(urlRandomQuote)).then(randomQuote => {
-    console.log("Quote: ", randomQuote.quoteText);
-    console.log("Author: ", randomQuote.quoteAuthor || "Unknown");
+    const quote = $("<q>").text(randomQuote.quoteText);
+    const author = $("<cite>").text(" -" + (randomQuote.quoteAuthor || "Unknown"));
+    $("#quote-div").append(quote, author);
   });
 
   /* News Feeds */
