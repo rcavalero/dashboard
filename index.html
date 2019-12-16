@@ -121,6 +121,72 @@
               <h3>Welcome</h3>
             </div>
             <div class="card-content">
+              <form id="userInput">
+                <div class="row">
+                  <div class="col s3">
+                    <label for="userName">Name:</label>
+                  </div>
+                  <div class="col">
+                    <input id="userName" type="text" placeholder="User Name">
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col s3">
+                    <label for="userCity">City:</label>
+                  </div>
+                  <div class="col">
+                    <input id="userCity" type="text" placeholder="City for weather">
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col s3">
+                    <label for="userStocks">Stocks:</label>
+                  </div>
+                  <div class="col">
+                    <input id="userStocks" type="text" placeholder="Stock symbols separated by commma sbux,msft">
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col s3">
+                    <label for="userNewsSource">News Source:</label>
+                  </div>
+                  <div class="col">
+                    <select id="userNewsSource" selected="">
+                      <option value="NY Times"></option>
+                      <option value="Guardian"></option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col s3">
+                    <label for="userNewsCat">News Category:</label>
+                  </div>
+                  <div class="col">
+                    <select id="userNewsCat" selected="">
+                      <option value="thing 1"></option>
+                      <!-- this will populate from an array based on news source selected -->
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col s3">
+                    <label for="userQuoteType">Quote Type:</label>
+                  </div>
+                  <div class="col">
+                    <select id="userQuoteType" selected="">
+                      <!-- this will populate from an array based on news source selected -->
+                    </select>
+                  </div>
+                </div>
+
+                <button id="userSaveBtn" type="button">Save</button>
+              </form>
+
 
             </div>
           </div>
