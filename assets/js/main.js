@@ -67,18 +67,29 @@ function getUserData() {
 };
   
 // *** this pulls stock data based on the user selected symbols that are stored in local storage ***
-// This loops through each stock symbol and currently stores the data in the stockInfo array for testing purposes
 function getStockInfo(stocks) {
 
     // this checks if there are stocks to pull data on and returns if not
         if (!stocks) {
                 return;
             }
+
+            // this empties the stock info so the new info can be loaded.
+        $("#stocks").html();
         
-    // todo - this is the array that will be created by pulling from the API 
-    // it can be deleted once we have HTML or element creation setup
-        var stockInfo = [];
-    
+        // this creates the rows and columns for the stock info
+        var stockTable = $("#stocks")
+        var stockInfo = $("<div class=row>");
+
+        var stockSymbolCol = $("<div class=col>");
+        // todo - need to left align the txt in these columns.  Should we change the change box to red/green?
+        var stockPriceCol = $("<div class=col right-align>");
+        var stockChangeCol= $("<div class=col right-align>");
+
+        stockTable.append(stockInfo);
+        stockInfo.append(stockSymbolCol, stockPriceCol, stockChangeCol);
+
+// This loops through each stock symbol and adds the info to the above columns for each stock
         stocks.forEach(function(stock) {
         
             var settings = {
@@ -95,24 +106,24 @@ function getStockInfo(stocks) {
             $.ajax(settings).done(function (response) {
                 // console.log(response);
     
-            // todo - this is where we will push data to the HTML or create elements with the new data
-                // in lieu of pushing to array
                 var stockData = response.quote;
     
-            // todo - determine what additional details we want and add here
-                // var stockSymbol = stockData.symbol;
-                // var stockName = stockData.companyName;
-                // var stockPrice = stockData.latestPrice;
+                var stockSymbol = stockData.symbol;
+                var stockPrice = stockData.latestPrice;
+                var stockChange = stockData.change;
+                    if (stockData.change === null ){
+                        stockChange = 0.00};
+
+                var stockSymbolEl = $("</p>").text(stockSymbol);
+                var stockPriceEl = $("</p>").text(stockPrice);
+                var stockChangeEl = $("</p>").text(stockChange);
+
+                    stockSymbolCol.append(stockSymbolEl);
+                    stockPriceCol.append(stockPriceEl);
+                    stockChangeCol.append(stockChangeEl);                    
+                });
     
-    
-                var stock = {
-                    symbol: stockData.symbol,
-                    name: stockData.companyName,
-                    price: stockData.latestPrice
-                };
-                stockInfo.push(stock);
             });
-        });
     };
      
     // todo - getting weather data will be based on city name.  Other options include using the state, 
