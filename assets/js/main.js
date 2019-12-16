@@ -1,6 +1,6 @@
 let taskInput; let taskArr;
 
-$(function () {
+$(function() {
   // materialize init
   M.AutoInit();
   fillSavedTask();
@@ -10,12 +10,12 @@ $(function () {
   $(".date").text(moment().format("ddd, MMM Do"));
 
   function addTask() {
-    $("#taskInput").keyup(function (e) {
+    $("#taskInput").keyup(function(e) {
       if (e.keyCode === 13) {
         $("#addTaskButton").click();
       }
     });
-    $("#addTaskButton").click(function (e) {
+    $("#addTaskButton").click(function(e) {
       e.preventDefault();
       let taskInput = $("#taskInput").val().toLowerCase();
 
@@ -34,7 +34,7 @@ $(function () {
     let icon = $(`<i class="material-icons check-icon">`);
     icon.text("panorama_fish_eye");
 
-    col1.click(function (e) {
+    col1.click(function(e) {
       e.preventDefault();
       icon.text("check_circle");
       if (icon.text() === 'check_circle') {
@@ -59,7 +59,7 @@ $(function () {
   }
 
   function searchAmazon() {
-    $("#search-amazon").keyup(function (e) {
+    $("#search-amazon").keyup(function(e) {
       let searchItem = $("#search-amazon").val();
       if (e.keyCode === 13 && searchItem) {
         let url = `https://www.amazon.com/s?k=${searchItem}`;
@@ -105,14 +105,14 @@ $(function () {
 
   function fillSavedTask() {
     let tempArr = [];
-    tempArr = JSON.parse(localStorage.getItem('taskData'));
+    tempArr = JSON.parse(localStorage.getItem("taskData"));
     console.log(tempArr);
 
     if (tempArr) {
       tempArr.forEach(element => {
         console.log(element);
         buildTask(element);
-      })
+      });
     } else {
       return;
     }
@@ -208,7 +208,7 @@ $(function () {
     stockInfo.append(stockSymbolCol, stockPriceCol, stockChangeCol);
 
     // This loops through each stock symbol and adds the info to the above columns for each stock
-    stocks.forEach(function (stock) {
+    stocks.forEach(function(stock) {
       var settings = {
         async: true,
         crossDomain: true,
@@ -220,17 +220,14 @@ $(function () {
         }
       };
 
-      $.ajax(settings).done(function (response) {
+      $.ajax(settings).done(function(response) {
         // console.log(response);
 
         var stockData = response.quote;
 
         var stockSymbol = stockData.symbol;
         var stockPrice = stockData.latestPrice;
-        var stockChange = stockData.change;
-        if (stockData.change === null) {
-          stockChange = 0.0;
-        }
+        stockChange = stockData.latestPrice - stockData.previousClose;
 
         var stockSymbolEl = $("</p>").text(stockSymbol);
         var stockPriceEl = $("</p>").text(stockPrice);
@@ -247,21 +244,23 @@ $(function () {
   // zip code or user location
   // This pulls the weather data based on user saved location
   function getCurrWeather(location) {
-    console.log("getting weather");
+    // console.log("getting weather");
 
     // this checks if there is a location
     if (!location) {
       return;
     }
 
-    var weatherApiKey = "bfd9c7ad0abc43cf8dad5c7ec01a1bad";
+    const weatherApiKey = "bfd9c7ad0abc43cf8dad5c7ec01a1bad";
     var queryWeatherURL = "https://api.weatherbit.io/v2.0/current?city=" + location + "&units=I&key=" + weatherApiKey;
 
     $.ajax({
       url: queryWeatherURL,
       method: "GET"
-    }).then(function (response) {
-      console.log(response);
+    }).then(function(response) {
+      // console.log("weather data");
+
+      // console.log(response);
 
       var currWeatherData = response.data[0];
       // // console.log(currWeatherData);
@@ -336,7 +335,7 @@ $(function () {
   $.when($.get(urlNYTimes)).then(processNYTArticles);
 
   function processNYTArticles(response) {
-    const newsContainer = $("#news-container");
+    const newsContainer = $("#news");
     console.log("NYT Articles");
     for (let i = 0; i < TOP; i++) {
       const result = response.results[i];
@@ -349,4 +348,11 @@ $(function () {
       // articlesNYT.push({ title: result.title, link: result.url });
     }
   }
+
+  // these are the timers that refresh the weather & stock data
+  // weather = 1 hour; stocks = 15 minutes
+  window.setInterval(getCurrWeather, 60 * 60 * 1000);
+  window.setInterval(getStockInfo, 15 * 60 * 1000);
+
+  // this is the end of the file.  All code should be input before this line.
 });
