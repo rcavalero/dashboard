@@ -1,6 +1,6 @@
 let taskInput;
 
-$(function () {
+$(function() {
   // materialize init
   M.AutoInit();
   fillSavedTask();
@@ -11,12 +11,12 @@ $(function () {
   removeTask();
 
   function addTask() {
-    $("#taskInput").keyup(function (e) {
+    $("#taskInput").keyup(function(e) {
       if (e.keyCode === 13) {
         $("#addTaskButton").click();
       }
     });
-    $("#addTaskButton").click(function (e) {
+    $("#addTaskButton").click(function(e) {
       e.preventDefault();
       let taskInput = $("#taskInput")
         .val()
@@ -37,7 +37,7 @@ $(function () {
     let icon = $(`<i class="material-icons check-icon">`);
     icon.text("panorama_fish_eye");
 
-    col1.click(function (e) {
+    col1.click(function(e) {
       e.preventDefault();
       icon.text("check_circle");
       // not working
@@ -56,7 +56,7 @@ $(function () {
   }
 
   function searchAmazon() {
-    $("#search-amazon").keyup(function (e) {
+    $("#search-amazon").keyup(function(e) {
       let searchItem = $("#search-amazon").val();
       if (e.keyCode === 13 && searchItem) {
         let url = `https://www.amazon.com/s?k=${searchItem}`;
@@ -87,23 +87,23 @@ $(function () {
 
   let taskArr;
   function addToLocalStorage(word) {
-    taskArr = JSON.parse(localStorage.getItem('taskData'));
+    taskArr = JSON.parse(localStorage.getItem("taskData"));
     console.log(typeof taskArr);
     taskArr.push(word);
-    localStorage.setItem('taskData', JSON.stringify(taskArr));
+    localStorage.setItem("taskData", JSON.stringify(taskArr));
     console.log(taskArr);
   }
 
   function fillSavedTask() {
     let tempArr = [];
-    tempArr = JSON.parse(localStorage.getItem('taskData'));
+    tempArr = JSON.parse(localStorage.getItem("taskData"));
     console.log(tempArr);
 
-    if(tempArr) {
+    if (tempArr) {
       tempArr.forEach(element => {
         console.log(element);
         buildTask(element);
-      })
+      });
     } else {
       return;
     }
@@ -117,7 +117,6 @@ $(function () {
   // news
   // quotes
   var userData = [];
-  
 
   // this will run when the app opens to see if data exists in local storage
   // if there is no data in local storage, the user is directed to the Setup page
@@ -197,7 +196,7 @@ $(function () {
     stockInfo.append(stockSymbolCol, stockPriceCol, stockChangeCol);
 
     // This loops through each stock symbol and adds the info to the above columns for each stock
-    stocks.forEach(function (stock) {
+    stocks.forEach(function(stock) {
       var settings = {
         async: true,
         crossDomain: true,
@@ -209,7 +208,7 @@ $(function () {
         }
       };
 
-      $.ajax(settings).done(function (response) {
+      $.ajax(settings).done(function(response) {
         // console.log(response);
 
         var stockData = response.quote;
@@ -246,9 +245,9 @@ $(function () {
     $.ajax({
       url: queryWeatherURL,
       method: "GET"
-    }).then(function (response) {
+    }).then(function(response) {
       // console.log("weather data");
-      
+
       // console.log(response);
 
       var currWeatherData = response.data[0];
@@ -324,7 +323,7 @@ $(function () {
   $.when($.get(urlNYTimes)).then(processNYTArticles);
 
   function processNYTArticles(response) {
-    const newsContainer = $("#news-container");
+    const newsContainer = $("#news");
     console.log("NYT Articles");
     for (let i = 0; i < TOP; i++) {
       const result = response.results[i];
@@ -336,10 +335,10 @@ $(function () {
       newsContainer.append($("<hr>"));
       // articlesNYT.push({ title: result.title, link: result.url });
     }
-  };
+  }
 
-// these are the timers that refresh the weather & stock data
-// weather = 1 hour; stocks = 15 minutes
+  // these are the timers that refresh the weather & stock data
+  // weather = 1 hour; stocks = 15 minutes
   window.setInterval(getCurrWeather, 60 * 60 * 1000);
   window.setInterval(getStockInfo, 15 * 60 * 1000);
 
