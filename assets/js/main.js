@@ -85,9 +85,10 @@ $(function () {
     }, 1000);
   }
 
-  let taskArr = [];
+  let taskArr;
   function addToLocalStorage(word) {
-    // taskArr = JSON.parse(localStorage.getItem('taskData'));
+    taskArr = JSON.parse(localStorage.getItem('taskData'));
+    console.log(typeof taskArr);
     taskArr.push(word);
     localStorage.setItem('taskData', JSON.stringify(taskArr));
     console.log(taskArr);
