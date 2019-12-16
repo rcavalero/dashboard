@@ -313,10 +313,17 @@ $(function() {
   $.when($.get(urlNYTimes)).then(processNYTArticles);
 
   function processNYTArticles(response) {
+    const newsContainer = $("#news-container");
     console.log("NYT Articles");
     for (let i = 0; i < TOP; i++) {
       const result = response.results[i];
-      articlesNYT.push({ title: result.title, link: result.url });
+      const a = $("<a>");
+      a.attr("target", "_blank");
+      a.attr("href", result.url);
+      a.text(result.title);
+      newsContainer.append(a);
+      newsContainer.append($("<hr>"));
+      // articlesNYT.push({ title: result.title, link: result.url });
     }
   }
 });
