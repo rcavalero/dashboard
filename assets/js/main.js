@@ -1,5 +1,4 @@
-$(document).ready(function(){
-
+ $(document).ready(function(){
 
 // this is a global variable for tracking user data
 // it has the following fields:
@@ -146,13 +145,17 @@ function getCurrWeather(location) {
     // this is where we will either dynamically create elements or feed the weather data to fields in the HTML
             
             var wImage = $("<img>");
+            var temp = $("<p>");
             wImage.attr("src", "assets/images/weatherIcons/"+wIcon+".png");
-            wImage.attr("style", "height: 3%; width: 3%;");
+            wImage.attr("style", "height: 25%; width: 25%;");
+            temp.text(wTemp+" (F)");
+            temp.attr("style", "color: white;")
             // this shows a description of the icon when you hover your mouse over the icon
             wImage.attr("title", wDesc);
-            $("body").append(wImage);
-    
-        });
+            $("#weather-box").append(wImage).append(temp);
+
+     
+     });
     };
     
     // todo - need to determine how often we want to update stock and other pulled data 
@@ -243,8 +246,9 @@ function fetchGuardianArticles() {
     }
     console.log(articlesGuardian);
   }
-}
+};
 
 // #endregion
+
   
 });
