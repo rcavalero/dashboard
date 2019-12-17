@@ -55,10 +55,10 @@
         <div class="footer">
           <div class="row footy">
             <div class="col s12">
-              <div class="card grey darken-4">
-                <div class="card-title center-align">news, stocks</div>
-                  <div id="news"></div>
-                  <div id="stocks"></div>
+              <div class="card grey darken-4" id="stock-box">
+                <div class="card-title center-align">currently</div>
+                <div id="news"></div>
+                <div id="stocks"></div>
               </div>
             </div>
           </div>
@@ -73,7 +73,7 @@
             <div class="row" id="search-bar">
               <div class="col s4 offset-s4">
                 <div class="card center-align search-amazon">
-                  <input class="center-align" type="text" id="search-amazon" placeholder="amazon.com">
+                  <input class="center-align" type="text" id="search-amazon" placeholder="amazon">
                 </div>
               </div>
             </div>
@@ -93,12 +93,12 @@
         </div>
 
         <!-- weather row -->
-        <footer>
+        <footer class="weather-box">
           <div class="row weather-row">
-            <div class="col s3 offset-s9">
+            <div class="col s2 offset-s10">
               <div class="card grey darken-4" id="weather-box">
-                <div class="card-body weather-card">
-                  <div class="card-title weather-card">
+                <div class="card-body weather-card" id="weather-card">
+                  <div class="card-title weather-card center-align" id='weather-card-title'>
                     wx
                   </div>
                 </div>
@@ -127,16 +127,16 @@
                     <label for="userName">Name:</label>
                   </div>
                   <div class="col">
-                    <input id="userName" type="text" placeholder="User Name">
+                    <input id="userName" type="text" placeholder="Enter user name">
                   </div>
                 </div>
-
+                
                 <div class="row">
                   <div class="col s3">
                     <label for="userCity">City:</label>
                   </div>
                   <div class="col">
-                    <input id="userCity" type="text" placeholder="City for weather">
+                    <input id="userCity" type="text" placeholder="Enter your city">
                   </div>
                 </div>
 
@@ -145,7 +145,7 @@
                     <label for="userStocks">Stocks:</label>
                   </div>
                   <div class="col">
-                    <input id="userStocks" type="text" placeholder="sbux,msft,intc">
+                    <input id="userStocks" type="text" placeholder="Enter stock tickers">
                   </div>
                 </div>
 
@@ -153,13 +153,23 @@
                   <div class="col s3">
                     <label for="userNewsSource">News Source:</label>
                   </div>
-                  <div class="col s6">
+                  <div class="col s6 browser-default">
                     <select id="userNewsSource">
-                      <option value="NY Times">NY Times</option>
-                      <option value="Guardian">Guardian</option>
+                      <option value="" disabled selected>Select News Source</option>
+                      <option value="sectionsNYT">NY Times</option>
+                      <option value="sectionsGuardian">Guardian</option>
                     </select>
                   </div>
                 </div>
+                <!-- <div class="input-field col s12 ">
+                  <select class="sourceChoice">
+                    <option value="" disabled selected>Choose your option</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                  </select>
+                  <label>Materialize Select</label>
+                </div> -->
 
                 <div class="row">
                   <div class="col s3">
@@ -173,7 +183,10 @@
                   </div>
                 </div>
 
-                <button id="userSaveBtn" type="button">Save</button>
+                <div class="row center-align">
+                  <button class="center-align" id="userSaveBtn" type="button">do magic</button>
+
+                </div>
               </form>
 
 
@@ -185,9 +198,13 @@
   </div>
 
   <!-- Compiled and minified JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<<<<<<< HEAD
+  <!-- <script src="./assets/js/particle.js"></script> -->
+=======
+>>>>>>> d44bf01c9dbb41964f39fabfd46e1d7db22c2704
   <script src="./assets/js/main.js"></script>
 </body>
 

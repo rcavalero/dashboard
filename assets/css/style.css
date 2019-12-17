@@ -6,11 +6,11 @@
   padding: 0; */
   font-family: 'Rubik', sans-serif;
   color: white;
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 
 body {
-  background: url('../images/northern-lights-5.jpg') center no-repeat;
+  background: url('../images/northern-lights-6.jpg') center no-repeat;
   background-color: #212121;
   background-size: cover;
   background-attachment: fixed;
@@ -33,10 +33,25 @@ input:focus {
   margin-bottom: 0;
 }
 
+.sidebar-content {
+  max-height: 65% !important;
+}
+
+.main {
+  position: relative;
+}
+.quote-row {
+  display: flex;
+  position: relative;
+}
+
+
+
+
 .sidebar-content,
 .main-content {
   display: flex;
-  min-height: 90vh;
+  max-height: 80vh;
   flex-direction: column;
 }
 
@@ -48,12 +63,11 @@ input:focus {
   cursor: pointer;
 }
 
-.weather-row {
-  /* margin-top: 230px; */
-}
 
-.card, .waves-light, #quote-div{
-  background-color:rgba(255, 255, 255, 0.3) !important;
+.card,
+.waves-light,
+#quote-div {
+  background-color: rgba(255, 255, 255, 0.3) !important;
 
 }
 
@@ -61,19 +75,39 @@ input #taskInput {
   padding-right: 20px;
 }
 
+.task {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
 #frosted {
-  background-color:rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+#momentRow {
+  margin-top: 180px;
+  margin-bottom: 0px;
+}
+
+#stock-box, #weather-box {
+  padding: 12px;
+}
+
+#weather-box {
+  margin-top: 150px;
+  align-items: center !important;
+  opacity: 70%;
 }
 
 #time,
 #momentBox {
-  margin-top: 200px;
-  top: 100px;
+  position: relative;
   font-size: 100pt;
   background-color: transparent;
   font-family: 'Roboto Mono', monospace;
   background-color: none !important;
 }
+
 
 #quote-row {
   top: 120px;
@@ -83,8 +117,23 @@ input #taskInput {
   color: white !important;
 }
 
-input:active {
-  color: purple !important;
+.card-content label {
+  color: black;
+  font-size: 16pt;
+  font-weight: bold;
+}
+
+#userSaveBtn {
+  color: white;
+  width: 80px;
+  background-color: #212121;
+  padding: 8px;
+  border: none;
+  border-radius: 3px;
+}
+
+span {
+  color: black !important;
 }
 
 

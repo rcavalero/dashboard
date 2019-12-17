@@ -1,4 +1,5 @@
-let taskInput; let taskArr;
+let taskInput;
+let taskArr;
 
 $(function() {
   // materialize init
@@ -9,6 +10,17 @@ $(function() {
   grabMoment();
   $(".date").text(moment().format("ddd, MMM Do"));
 
+  let main = $("#mainContainer");
+  let admin = $("#prompt-container");
+  admin.hide();
+
+  // main.hide();
+
+  function startUp() {
+    main.hide();
+    admin.show();
+  }
+
   function addTask() {
     $("#taskInput").keyup(function(e) {
       if (e.keyCode === 13) {
@@ -17,7 +29,9 @@ $(function() {
     });
     $("#addTaskButton").click(function(e) {
       e.preventDefault();
-      let taskInput = $("#taskInput").val().toLowerCase();
+      let taskInput = $("#taskInput")
+        .val()
+        .toLowerCase();
 
       if (!taskInput) {
         return;
@@ -37,14 +51,12 @@ $(function() {
     col1.click(function(e) {
       e.preventDefault();
       icon.text("check_circle");
-      if (icon.text() === 'check_circle') {
-        // let help;
-        // help = $(this).siblings().children().val();
-        // console.log(help);
-        // console.log(taskArr);
-        removeTask($(this));
+      if (icon.text() === "check_circle") {
+        var self = this;
+        setTimeout(function() {
+          removeTask($(self));
+        }, 750);
         removeFromLocal($(this));
-
       }
     });
 
@@ -85,22 +97,23 @@ $(function() {
   }
 
   function removeFromLocal(haha) {
-    let word = $(haha).siblings().children().val();
-    let temp = JSON.parse(localStorage.getItem('taskData')) || [];
+    let word = $(haha)
+      .siblings()
+      .children()
+      .val();
+    let temp = JSON.parse(localStorage.getItem("taskData")) || [];
 
     let ind = temp.indexOf(word);
-    if(ind > -1) {
+    if (ind > -1) {
       temp.splice(ind, 1);
-      localStorage.setItem('taskData', JSON.stringify(temp));
+      localStorage.setItem("taskData", JSON.stringify(temp));
     }
-    console.log(ind);
-
   }
 
   function addToLocalStorage(word) {
-    taskArr = JSON.parse(localStorage.getItem('taskData')) || [];
+    taskArr = JSON.parse(localStorage.getItem("taskData")) || [];
     taskArr.push(word);
-    localStorage.setItem('taskData', JSON.stringify(taskArr));
+    localStorage.setItem("taskData", JSON.stringify(taskArr));
   }
 
   function fillSavedTask() {
@@ -116,15 +129,12 @@ $(function() {
     } else {
       return;
     }
-
-
-
-  };
+  }
 
   // this is a global variable for tracking user data
   var userData = [];
-  
-// these are the categories for the NY Times articles
+
+  // these are the categories for the NY Times articles
   const sectionsNYT = [
     "arts",
     "automobiles",
@@ -146,43 +156,93 @@ $(function() {
     "world"
   ];
 
-// this is the function that fills the news category checkbox on the user screen.  Still working on it
-  // // add argument for newsSource
-  function fillNewsCat(){
-    var newsCat = $("#userNewsCat"); 
+  const sectionsGuardian = [
+    "arts",
+    "automobiles",
+    "books",
+    "business",
+    "fashion",
+    "food",
+    "health",
+    "home",
+    "magazine",
+    "movies",
+    "national",
+    "politics",
+    "realestate",
+    "science",
+    "sports",
+    "technology",
+    "travel",
+    "world"
+  ];
 
-    sectionsNYT.forEach(function(category) {
-      var catEl = $("<option>");
-      catEl.text(category);
-      catEl.attr("value", category);
-      newsCat.append(catEl);
-    })
-    };
+  // this is the function that fills the news category checkbox on the user screen.
+  function fillNewsCat(source) {
+    var newsCat = $("#userNewsCat");
+    newsCat.empty();
 
-    fillNewsCat();
+    const newsCategories = source === "NY Times" ? sectionsNYT : sectionsGuardian;
+
+    newsCategories.forEach(function(category) {
+      newsCat.append(
+        $("<option>")
+          .attr("value", category)
+          .text(category)
+      );
+    });
+    $("#userNewsCat").formSelect();
+  }
 
   // this will run when the app opens to see if data exists in local storage
   // if there is no data in local storage, the user is directed to the Setup page
   if (!localStorage.getItem("myDashUserData")) {
-
-    // todo - add code to direct user to the setup page
-    alert("Enter form data");
+    startUp();
   }
   // if there is data in local storage it feeds to the userData global variable and fills in the user input form
   else {
     getUserData();
     $("#userName").val(userData[0].name),
-    $("#userCity").val(userData[0].weatherCity),
-    $("#userStocks").val(userData[0].stocks.join()),
-    $("#userNewsSource").val(userData[0].newsSource),
-    $("#userNewsCat").val(userData[0].newsCat)
-  };
-  
-// this runs the function that updates local storage from user input screen
+      $("#userCity").val(userData[0].weatherCity),
+      $("#userStocks").val(userData[0].stocks.join()),
+      $("#userNewsSource").val(userData[0].newsSource),
+      $("#userNewsSource").formSelect();
+    fillNewsCat($("#userNewsSource").val());
+    $("#userNewsCat").val(userData[0].newsCat);
+    $("#userNewsCat").formSelect();
+  }
+
+  // this runs the function that updates local storage from user input screen
   $("#userSaveBtn").on("click", function(event) {
-      event.preventDefault;
-      updateUserData();
+    event.preventDefault();
+    console.log("clicked");
+    main.show();
+    admin.hide();
+    updateUserData();
   });
+
+
+  $("#userNewsSource").on("change",function (event) {
+    console.log("changed news source", event.target.value);
+    // console.log("jquery this", $(this));
+
+    $("#userNewsSource").formSelect();
+    $("#news").empty();
+    $("#userNewsCat").empty();
+
+    // $(this).find(':selected').attr('selected', 'selected') ;
+    fillNewsCat($("#userNewsSource").val());
+    console.log($("#userNewsSource").val());
+    
+
+  });
+
+  // $("#userNewsCat").change(function(event){
+  //   console.log(this);
+  //   console.log("changed userNewsCat");
+  //   $("#news").empty();
+  //   getNewsArticles($("#userNewsSource").val(),$("#userNewsCat").val());
+  // });
 
   // this will save user data in local storage from the setup page when the save button is clicked
   function updateUserData() {
@@ -190,13 +250,11 @@ $(function() {
 
     // this grabs data from the user setup screen and feeds it to local storage
     var data = {
-      // name: "Robert",
-      // weatherCity: "",
-      // stocks: ["intc", "msft", "sbux"]
-
       name: $("#userName").val(),
       weatherCity: $("#userCity").val(),
-      stocks:  $("#userStocks").val().split(","),
+      stocks: $("#userStocks")
+        .val()
+        .split(","),
       newsSource: $("#userNewsSource").val(),
       newsCat: $("#userNewsCat").val()
     };
@@ -207,38 +265,37 @@ $(function() {
     // this pulls the stock & weather info after the user screen has been updated
     getStockInfo(userData[0].stocks);
     getCurrWeather(userData[0].weatherCity);
-    // todo - add the other functions for pulling quotes and news
+    getNewsArticles(userData[0].newsSource, userData[0].newsCat);
   }
 
-  // this loads existing user data into the userData global variable and pulls the stock & weather info
+  // this loads existing user data into the userData global variable and pulls the stock, weather & news
   function getUserData() {
     var storedUserData = JSON.parse(localStorage.getItem("myDashUserData") || "[]");
     userData = storedUserData;
     getStockInfo(userData[0].stocks);
     getCurrWeather(userData[0].weatherCity);
-
-    // todo - add the other functions for pulling quotes and news
+    getNewsArticles(userData[0].newsSource, userData[0].newsCat);
   }
 
   // *** this pulls stock data based on the user selected symbols that are stored in local storage ***
   function getStockInfo(stocks) {
     // this checks if there are stocks to pull data on and returns if not
-    
+
     if (!stocks) {
       return;
     }
 
     // this empties the stock info so the new info can be loaded.
-    $("#stocks").html();
+    $("#stocks").empty();
 
     // this creates the rows and columns for the stock info
     var stockTable = $("#stocks");
-    var stockInfo = $("<div class=row>");
+    var stockInfo = $("<div class='row center-align'>");
 
     var stockSymbolCol = $("<div class=col>");
     // todo - need to left align the txt in these columns.  Should we change the change box to red/green?
-    var stockPriceCol = $("<div class=col right-align>");
-    var stockChangeCol = $("<div class=col right-align>");
+    var stockPriceCol = $("<div class='col right-align'>");
+    var stockChangeCol = $("<div class='col right-align'>");
 
     stockTable.append(stockInfo);
     stockInfo.append(stockSymbolCol, stockPriceCol, stockChangeCol);
@@ -257,7 +314,6 @@ $(function() {
       };
 
       $.ajax(settings).done(function(response) {
-
         var stockData = response.quote;
 
         var stockSymbol = stockData.symbol;
@@ -265,8 +321,15 @@ $(function() {
         stockChange = stockData.latestPrice - stockData.previousClose;
 
         var stockSymbolEl = $("</p>").text(stockSymbol);
-        var stockPriceEl = $("</p>").text(stockPrice);
-        var stockChangeEl = $("</p>").text(stockChange);
+        var stockPriceEl = $("</p>").text(stockPrice.toFixed(2));
+        var stockChangeEl = $("</p>").text(stockChange.toFixed(2));
+
+        if (stockChange < 0) {
+          stockChangeEl.css('color', 'red');
+        }
+        if (stockChange > 0) {
+          stockChangeEl.css('color', 'green');
+        }
 
         stockSymbolCol.append(stockSymbolEl);
         stockPriceCol.append(stockPriceEl);
@@ -298,9 +361,9 @@ $(function() {
       // console.log(response);
 
       var currWeatherData = response.data[0];
-      // // console.log(currWeatherData);
+      // console.log(currWeatherData);
       // var wState = currWeatherData.state_code;
-      // var wCity = currWeatherData.city_name;
+      var wCity = currWeatherData.city_name;
       var wTemp = currWeatherData.temp;
       var wIcon = currWeatherData.weather.icon;
       var wDesc = currWeatherData.weather.description;
@@ -308,16 +371,30 @@ $(function() {
       // this is where we will either dynamically create elements or feed the weather data to fields in the HTML
 
       var wImage = $("<img>");
-      var temp = $("<p>");
+      var temp = $("<p class=center-align>");
       wImage.attr("src", "assets/images/weatherIcons/" + wIcon + ".png");
       wImage.attr("style", "height: 25%; width: 25%;");
-      temp.text(wTemp + " (F)");
-      temp.attr("style", "color: white;");
+      temp.text(wTemp + " °F");
+      temp.attr("style", "color: white; font-size: 14pt; padding: 0; margin-top: 0px");
       // this shows a description of the icon when you hover your mouse over the icon
       wImage.attr("title", wDesc);
-      $("#weather-box")
-        .append(wImage)
-        .append(temp);
+
+      // this creates the header box with city and state
+
+      // $("#weather-box").append("<div class=row>").append("<div class=col>").append("<p>").text(wCity);
+      // wCity.css('font-size', '14pt');
+      $('#weather-card-title').text(wCity);
+
+      // // this creates the 2nd row with icon and temp
+      $("#weather-box").append("<div class=row id=wRow2>").append("<div class=col s4>").append(wImage)
+      // .append(temp);
+      // console.log(temp);
+
+      $("#wRow2").append("<div class=col s4>").append(temp);
+      // $("#weather-box").append("<div class=row id=wRow2>").append("<div class='col s1'>").append(wImage)
+      $('#weather-box').append(temp.append(wImage));
+
+      //  $("#wRow2").append("<div class='col s1'>").append(temp);
     });
   }
 
@@ -332,38 +409,41 @@ $(function() {
 
   /* News Feeds */
 
-  const TOP = 5; // User chooses to see the top n articles from each feed.
+  const TOP = 3; // User chooses to see the top n articles from each feed.
 
   // #region MY Times
 
-  const apiKeyNYTimes = "RW27VlJmKlJGUazGiUKrvhygb5icwzCZ";
+  function getNewsArticles(source, category) {
+    if (source === "Guardian") return;
 
-  console.log("News sections in NY Times: ", sectionsNYT);
+    const apiKeyNYTimes = "RW27VlJmKlJGUazGiUKrvhygb5icwzCZ";
 
-  var sectionNYT = sectionsNYT[10]; // User will select the section of interest
-  var urlNYTimes = `https://api.nytimes.com/svc/topstories/v2/${sectionNYT}.json?api-key=${apiKeyNYTimes}`;
-  const articlesNYT = [];
-  $.when($.get(urlNYTimes)).then(processNYTArticles);
+    // var sectionNYT = sectionsNYT[10]; // User will select the section of interest
+    // var urlNYTimes = `https://api.nytimes.com/svc/topstories/v2/${sectionNYT}.json?api-key=${apiKeyNYTimes}`;
+    var urlNYTimes = `https://api.nytimes.com/svc/topstories/v2/` + category + `.json?api-key=${apiKeyNYTimes}`;
+    const articlesNYT = [];
+    $.when($.get(urlNYTimes)).then(processNYTArticles);
 
-  function processNYTArticles(response) {
-    const newsContainer = $("#news");
-    console.log("NYT Articles");
-    for (let i = 0; i < TOP; i++) {
-      const result = response.results[i];
-      const a = $("<a>");
-      a.attr("target", "_blank");
-      a.attr("href", result.url);
-      a.text(result.title);
-      newsContainer.append(a);
-      newsContainer.append($("<hr>"));
-      // articlesNYT.push({ title: result.title, link: result.url });
+    function processNYTArticles(response) {
+      const newsContainer = $("#news");
+      console.log("NYT Articles");
+      for (let i = 0; i < TOP; i++) {
+        const result = response.results[i];
+        const a = $("<a>");
+        a.attr("target", "_blank");
+        a.attr("href", result.url);
+        a.text(result.title);
+        newsContainer.append(a);
+        newsContainer.append($("<hr>"));
+        // articlesNYT.push({ title: result.title, link: result.url });
+      }
     }
   }
 
   // these are the timers that refresh the weather & stock data
   // weather = 1 hour; stocks = 15 minutes
-  window.setInterval(getCurrWeather, 60 * 60 * 1000);
-  window.setInterval(getStockInfo, 15 * 60 * 1000);
+  // window.setInterval(getCurrWeather, 60 * 60 * 1000);
+  // window.setInterval(getStockInfo, 15 * 60 * 1000);
 
   // this is the end of the file.  All code should be input before this line.
 });
