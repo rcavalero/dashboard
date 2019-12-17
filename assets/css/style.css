@@ -33,6 +33,10 @@ input:focus {
   margin-bottom: 0;
 }
 
+.sidebar-content {
+  max-height: 65% !important;
+}
+
 .sidebar-content,
 .main-content {
   display: flex;
@@ -52,8 +56,10 @@ input:focus {
   /* margin-top: 230px; */
 }
 
-.card, .waves-light, #quote-div{
-  background-color:rgba(255, 255, 255, 0.3) !important;
+.card,
+.waves-light,
+#quote-div {
+  background-color: rgba(255, 255, 255, 0.3) !important;
 
 }
 
@@ -62,7 +68,7 @@ input #taskInput {
 }
 
 #frosted {
-  background-color:rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 #time,
@@ -85,6 +91,25 @@ input #taskInput {
 
 input:active {
   color: purple !important;
+}
+
+.card-content label {
+  color: black;
+  font-size: 16pt;
+  font-weight: bold;
+}
+
+#userSaveBtn {
+  color: white;
+  width: 80px;
+  background-color: #212121;
+  padding: 8px;
+  border: none;
+  border-radius: 3px;
+}
+
+span {
+  color: black !important;
 }
 
 
