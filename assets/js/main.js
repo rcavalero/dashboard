@@ -221,8 +221,10 @@ $(function() {
     updateUserData();
   });
 
-  $("#userNewsSource").change(function(event) {
-    console.log("changed news source");
+
+  $("#userNewsSource").on("change",function (event) {
+    console.log("changed news source", event.target.value);
+    // console.log("jquery this", $(this));
 
     $("#userNewsSource").formSelect();
     $("#news").empty();
@@ -230,6 +232,9 @@ $(function() {
 
     // $(this).find(':selected').attr('selected', 'selected') ;
     fillNewsCat($("#userNewsSource").val());
+    console.log($("#userNewsSource").val());
+    
+
   });
 
   // $("#userNewsCat").change(function(event){
@@ -320,10 +325,10 @@ $(function() {
         var stockChangeEl = $("</p>").text(stockChange.toFixed(2));
 
         if (stockChange < 0) {
-          stockChangeEl.css("color", "red");
+          stockChangeEl.css('color', 'red');
         }
         if (stockChange > 0) {
-          stockChangeEl.css("color", "green");
+          stockChangeEl.css('color', 'green');
         }
 
         stockSymbolCol.append(stockSymbolEl);
@@ -381,6 +386,11 @@ $(function() {
       $('#weather-card-title').text(wCity);
 
       // // this creates the 2nd row with icon and temp
+      $("#weather-box").append("<div class=row id=wRow2>").append("<div class=col s4>").append(wImage)
+      // .append(temp);
+      // console.log(temp);
+
+      $("#wRow2").append("<div class=col s4>").append(temp);
       // $("#weather-box").append("<div class=row id=wRow2>").append("<div class='col s1'>").append(wImage)
       $('#weather-box').append(temp.append(wImage));
 
