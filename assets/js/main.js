@@ -216,6 +216,9 @@ $(function () {
 
 
   $("#userNewsSource").change(function(event){
+    console.log("changed news source");
+    
+    $("#userNewsSource").formSelect();
     $("#news").empty();
     $("#userNewsCat").empty()
 
@@ -349,9 +352,9 @@ $(function () {
       // console.log(response);
 
       var currWeatherData = response.data[0];
-      // // console.log(currWeatherData);
+      // console.log(currWeatherData);
       // var wState = currWeatherData.state_code;
-      // var wCity = currWeatherData.city_name;
+      var wCity = currWeatherData.city_name;
       var wTemp = currWeatherData.temp;
       var wIcon = currWeatherData.weather.icon;
       var wDesc = currWeatherData.weather.description;
@@ -366,9 +369,16 @@ $(function () {
       temp.attr("style", "color: white;");
       // this shows a description of the icon when you hover your mouse over the icon
       wImage.attr("title", wDesc);
-      $("#weather-box")
-        .append(wImage)
-        .append(temp);
+
+      // this creates the header box with city and state
+      $("#weather-box").append("<div class=row>").append("<div class=col>").append("<p>").text(wCity);
+
+      // // this creates the 2nd row with icon and temp
+      $("#weather-box").append("<div class=row id=wRow2>").append("<div class=col s4>").append(wImage)
+      // .append(temp);
+// console.log(temp);
+
+       $("#wRow2").append("<div class=col s4>").append(temp);
     });
   }
 
