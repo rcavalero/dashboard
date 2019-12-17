@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:500&display=swap');
+
+* {
+  /* margin: 0;
+  padding: 0; */
+  font-family: 'Rubik', sans-serif;
+  color: white;
+  /* overflow: hidden; */
+}
+
+body {
+  background: url('../images/northern-lights-5.jpg') center no-repeat;
+  background-color: #212121;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+input,
+input:active,
+input:focus {
+  font-family: 'Rubik', sans-serif;
+  border: none !important;
+  font-weight: bold;
+  box-shadow: none !important;
+
+}
+
+.search-amazon,
+#search-amazon {
+  border-radius: 30px;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.sidebar-content,
+.main-content {
+  display: flex;
+  min-height: 90vh;
+  flex-direction: column;
+}
+
+.check-icon {
+  margin-left: 12px;
+}
+
+.check-icon:hover {
+  cursor: pointer;
+}
+
+.weather-row {
+  /* margin-top: 230px; */
+}
+
+.card, .waves-light, #quote-div{
+  background-color:rgba(255, 255, 255, 0.3) !important;
+
+}
+
+input #taskInput {
+  padding-right: 20px;
+}
+
+#frosted {
+  background-color:rgba(255, 255, 255, 0.3);
+}
+
+#time,
+#momentBox {
+  margin-top: 200px;
+  top: 100px;
+  font-size: 100pt;
+  background-color: transparent;
+  font-family: 'Roboto Mono', monospace;
+  background-color: none !important;
+}
+
+#quote-row {
+  top: 120px;
+}
+
+::placeholder {
+  color: white !important;
+}
+
+input:active {
+  color: purple !important;
+}
+
+
+
+
+
+/* background styles */
