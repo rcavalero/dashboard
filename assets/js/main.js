@@ -393,7 +393,7 @@ $(function () {
 
   /* News Feeds */
 
-  const TOP = 5; // User chooses to see the top n articles from each feed.
+  const TOP = 3; // User chooses to see the top n articles from each feed.
 
   // #region MY Times
 
