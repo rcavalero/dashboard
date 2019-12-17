@@ -1,6 +1,7 @@
-let taskInput; let taskArr;
+let taskInput;
+let taskArr;
 
-$(function () {
+$(function() {
   // materialize init
   M.AutoInit();
   fillSavedTask();
@@ -9,8 +10,8 @@ $(function () {
   grabMoment();
   $(".date").text(moment().format("ddd, MMM Do"));
 
-  let main = $('#mainContainer');
-  let admin = $('#prompt-container');
+  let main = $("#mainContainer");
+  let admin = $("#prompt-container");
   admin.hide();
 
   // main.hide();
@@ -21,14 +22,16 @@ $(function () {
   }
 
   function addTask() {
-    $("#taskInput").keyup(function (e) {
+    $("#taskInput").keyup(function(e) {
       if (e.keyCode === 13) {
         $("#addTaskButton").click();
       }
     });
-    $("#addTaskButton").click(function (e) {
+    $("#addTaskButton").click(function(e) {
       e.preventDefault();
-      let taskInput = $("#taskInput").val().toLowerCase();
+      let taskInput = $("#taskInput")
+        .val()
+        .toLowerCase();
 
       if (!taskInput) {
         return;
@@ -45,17 +48,15 @@ $(function () {
     let icon = $(`<i class="material-icons check-icon">`);
     icon.text("panorama_fish_eye");
 
-    col1.click(function (e) {
+    col1.click(function(e) {
       e.preventDefault();
       icon.text("check_circle");
-      if (icon.text() === 'check_circle') {
+      if (icon.text() === "check_circle") {
         var self = this;
-        setTimeout(function () {
-
+        setTimeout(function() {
           removeTask($(self));
-        }, 750)
+        }, 750);
         removeFromLocal($(this));
-
       }
     });
 
@@ -70,7 +71,7 @@ $(function () {
   }
 
   function searchAmazon() {
-    $("#search-amazon").keyup(function (e) {
+    $("#search-amazon").keyup(function(e) {
       let searchItem = $("#search-amazon").val();
       if (e.keyCode === 13 && searchItem) {
         let url = `https://www.amazon.com/s?k=${searchItem}`;
@@ -96,20 +97,23 @@ $(function () {
   }
 
   function removeFromLocal(haha) {
-    let word = $(haha).siblings().children().val();
-    let temp = JSON.parse(localStorage.getItem('taskData')) || [];
+    let word = $(haha)
+      .siblings()
+      .children()
+      .val();
+    let temp = JSON.parse(localStorage.getItem("taskData")) || [];
 
     let ind = temp.indexOf(word);
     if (ind > -1) {
       temp.splice(ind, 1);
-      localStorage.setItem('taskData', JSON.stringify(temp));
+      localStorage.setItem("taskData", JSON.stringify(temp));
     }
   }
 
   function addToLocalStorage(word) {
-    taskArr = JSON.parse(localStorage.getItem('taskData')) || [];
+    taskArr = JSON.parse(localStorage.getItem("taskData")) || [];
     taskArr.push(word);
-    localStorage.setItem('taskData', JSON.stringify(taskArr));
+    localStorage.setItem("taskData", JSON.stringify(taskArr));
   }
 
   function fillSavedTask() {
@@ -125,10 +129,7 @@ $(function () {
     } else {
       return;
     }
-
-
-
-  };
+  }
 
   // this is a global variable for tracking user data
   var userData = [];
@@ -156,76 +157,80 @@ $(function () {
   ];
 
   const sectionsGuardian = [
-    "sports", "cooking"
+    "arts",
+    "automobiles",
+    "books",
+    "business",
+    "fashion",
+    "food",
+    "health",
+    "home",
+    "magazine",
+    "movies",
+    "national",
+    "politics",
+    "realestate",
+    "science",
+    "sports",
+    "technology",
+    "travel",
+    "world"
   ];
 
-
-
-// this is the function that fills the news category checkbox on the user screen.
-  function fillNewsCat(source){
-    var newsCat = $("#userNewsCat"); 
+  // this is the function that fills the news category checkbox on the user screen.
+  function fillNewsCat(source) {
+    var newsCat = $("#userNewsCat");
     newsCat.empty();
-   
 
-    let newsCategories = [];
-    if (source === "NY Times") {
-      newsCategories = sectionsNYT;
-    }
-    else if (source = "Guardian") {
-      newsCategories = sectionsGuardian;
-    };
-
+    const newsCategories = source === "NY Times" ? sectionsNYT : sectionsGuardian;
 
     newsCategories.forEach(function(category) {
-      newsCat.append($("<option>").attr("value",category).text(category));
-
-    })
-    $("#userNewsCat").formSelect()
-  };
-
+      newsCat.append(
+        $("<option>")
+          .attr("value", category)
+          .text(category)
+      );
+    });
+    $("#userNewsCat").formSelect();
+  }
 
   // this will run when the app opens to see if data exists in local storage
   // if there is no data in local storage, the user is directed to the Setup page
   if (!localStorage.getItem("myDashUserData")) {
-
     startUp();
   }
   // if there is data in local storage it feeds to the userData global variable and fills in the user input form
   else {
     getUserData();
     $("#userName").val(userData[0].name),
-
-    $("#userCity").val(userData[0].weatherCity),
-    $("#userStocks").val(userData[0].stocks.join()),
-    $("#userNewsSource").val(userData[0].newsSource),
-    $("#userNewsSource").formSelect();
+      $("#userCity").val(userData[0].weatherCity),
+      $("#userStocks").val(userData[0].stocks.join()),
+      $("#userNewsSource").val(userData[0].newsSource),
+      $("#userNewsSource").formSelect();
     fillNewsCat($("#userNewsSource").val());
     $("#userNewsCat").val(userData[0].newsCat);
     $("#userNewsCat").formSelect();
-
-  };
+  }
 
   // this runs the function that updates local storage from user input screen
-  $("#userSaveBtn").on("click", function (event) {
+  $("#userSaveBtn").on("click", function(event) {
     event.preventDefault();
-    console.log('clicked');
+    console.log("clicked");
     main.show();
     admin.hide();
     updateUserData();
   });
 
-
-  $("#userNewsSource").change(function(event){
+  $("#userNewsSource").change(function(event) {
     console.log("changed news source");
-    
+
     $("#userNewsSource").formSelect();
     $("#news").empty();
-    $("#userNewsCat").empty()
+    $("#userNewsCat").empty();
 
     // $(this).find(':selected').attr('selected', 'selected') ;
     fillNewsCat($("#userNewsSource").val());
   });
-
 
   // $("#userNewsCat").change(function(event){
   //   console.log(this);
@@ -233,7 +238,6 @@ $(function () {
   //   $("#news").empty();
   //   getNewsArticles($("#userNewsSource").val(),$("#userNewsCat").val());
   // });
-
 
   // this will save user data in local storage from the setup page when the save button is clicked
   function updateUserData() {
@@ -243,7 +247,9 @@ $(function () {
     var data = {
       name: $("#userName").val(),
       weatherCity: $("#userCity").val(),
-      stocks: $("#userStocks").val().split(","),
+      stocks: $("#userStocks")
+        .val()
+        .split(","),
       newsSource: $("#userNewsSource").val(),
       newsCat: $("#userNewsCat").val()
     };
@@ -256,7 +262,6 @@ $(function () {
     getCurrWeather(userData[0].weatherCity);
     getNewsArticles(userData[0].newsSource, userData[0].newsCat);
   }
-
 
   // this loads existing user data into the userData global variable and pulls the stock, weather & news
   function getUserData() {
@@ -291,7 +296,7 @@ $(function () {
     stockInfo.append(stockSymbolCol, stockPriceCol, stockChangeCol);
 
     // This loops through each stock symbol and adds the info to the above columns for each stock
-    stocks.forEach(function (stock) {
+    stocks.forEach(function(stock) {
       var settings = {
         async: true,
         crossDomain: true,
@@ -303,8 +308,7 @@ $(function () {
         }
       };
 
-      $.ajax(settings).done(function (response) {
-
+      $.ajax(settings).done(function(response) {
         var stockData = response.quote;
 
         var stockSymbol = stockData.symbol;
@@ -315,11 +319,11 @@ $(function () {
         var stockPriceEl = $("</p>").text(stockPrice.toFixed(2));
         var stockChangeEl = $("</p>").text(stockChange.toFixed(2));
 
-        if(stockChange < 0) {
-          stockChangeEl.css('color', 'red');
+        if (stockChange < 0) {
+          stockChangeEl.css("color", "red");
         }
-        if(stockChange > 0) {
-          stockChangeEl.css('color', 'green');
+        if (stockChange > 0) {
+          stockChangeEl.css("color", "green");
         }
 
         stockSymbolCol.append(stockSymbolEl);
@@ -346,7 +350,7 @@ $(function () {
     $.ajax({
       url: queryWeatherURL,
       method: "GET"
-    }).then(function (response) {
+    }).then(function(response) {
       // console.log("weather data");
 
       // console.log(response);
@@ -371,14 +375,23 @@ $(function () {
       wImage.attr("title", wDesc);
 
       // this creates the header box with city and state
-      $("#weather-box").append("<div class=row>").append("<div class=col>").append("<p>").text(wCity);
+      $("#weather-box")
+        .append("<div class=row>")
+        .append("<div class=col>")
+        .append("<p>")
+        .text(wCity);
 
       // // this creates the 2nd row with icon and temp
-      $("#weather-box").append("<div class=row id=wRow2>").append("<div class=col s4>").append(wImage)
+      $("#weather-box")
+        .append("<div class=row id=wRow2>")
+        .append("<div class=col s4>")
+        .append(wImage);
       // .append(temp);
-// console.log(temp);
+      // console.log(temp);
 
-       $("#wRow2").append("<div class=col s4>").append(temp);
+      $("#wRow2")
+        .append("<div class=col s4>")
+        .append(temp);
     });
   }
 
@@ -398,12 +411,9 @@ $(function () {
   // #region MY Times
 
   function getNewsArticles(source, category) {
-    if (source === "Guardian")
-      return;
+    if (source === "Guardian") return;
 
     const apiKeyNYTimes = "RW27VlJmKlJGUazGiUKrvhygb5icwzCZ";
-
-    console.log("News sections in NY Times: ", sectionsNYT);
 
     // var sectionNYT = sectionsNYT[10]; // User will select the section of interest
     // var urlNYTimes = `https://api.nytimes.com/svc/topstories/v2/${sectionNYT}.json?api-key=${apiKeyNYTimes}`;
