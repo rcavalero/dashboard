@@ -11,12 +11,13 @@ $(function () {
 
   let main = $('#mainContainer');
   let admin = $('#prompt-container');
+  admin.hide();
 
-  main.hide();
+  // main.hide();
 
   function startUp() {
-    main.show();
-    admin.hide();
+    main.hide();
+    admin.show();
   }
 
   function addTask() {
@@ -48,8 +49,11 @@ $(function () {
       e.preventDefault();
       icon.text("check_circle");
       if (icon.text() === 'check_circle') {
+        var self = this;
+        setTimeout(function () {
 
-        removeTask($(this));
+          removeTask($(self));
+        }, 750)
         removeFromLocal($(this));
 
       }
@@ -155,11 +159,11 @@ $(function () {
     "sports", "cooking"
   ];
 
-// this is the function that fills the news category checkbox on the user screen.
-  function fillNewsCat(source){
-    var newsCat = $("#userNewsCat"); 
+  // this is the function that fills the news category checkbox on the user screen.
+  function fillNewsCat(source) {
+    var newsCat = $("#userNewsCat");
     // newsCat.html("");
-   
+
     let newsCategories = [];
     if (source === "NY Times") {
       newsCategories = sectionsNYT;
@@ -168,8 +172,8 @@ $(function () {
       newsCategories = sectionsGuardian;
     };
 
-    newsCategories.forEach(function(category) {
-    // source.forEach(function(category) {
+    newsCategories.forEach(function (category) {
+      // source.forEach(function(category) {
       var catEl = $("<option>");
       catEl.text(category);
       catEl.attr("value", category);
@@ -180,7 +184,6 @@ $(function () {
   // this will run when the app opens to see if data exists in local storage
   // if there is no data in local storage, the user is directed to the Setup page
   if (!localStorage.getItem("myDashUserData")) {
-
     // todo - add code to direct user to the setup page
     // alert("Enter form data");
     startUp();
@@ -189,10 +192,10 @@ $(function () {
   else {
     getUserData();
     $("#userName").val(userData[0].name),
-    $("#userCity").val(userData[0].weatherCity),
-    $("#userStocks").val(userData[0].stocks.join()),
-    $("#userNewsSource").val(userData[0].newsSource),
-    fillNewsCat($("#userNewsSource").val());
+      $("#userCity").val(userData[0].weatherCity),
+      $("#userStocks").val(userData[0].stocks.join()),
+      $("#userNewsSource").val(userData[0].newsSource),
+      fillNewsCat($("#userNewsSource").val());
     $("#userNewsCat").val(userData[0].newsCat)
   };
 
@@ -200,28 +203,29 @@ $(function () {
   $("#userSaveBtn").on("click", function (event) {
     event.preventDefault();
     console.log('clicked');
-    startUp();
+    main.show();
+    admin.hide();
     updateUserData();
   });
 
-  $("#userNewsSource").change(function(event){
+  $("#userNewsSource").change(function (event) {
     $("#news").html("");
     // $("#userNewsCat").html("")
     // $(this).find(':selected').attr('selected', 'selected') ;
     fillNewsCat($("#userNewsSource").val());
   });
 
-  $("#userNewsCat").change(function(event){
+  $("#userNewsCat").change(function (event) {
     console.log(this);
     console.log("changed userNewsCat");
     $("#news").html("");
-    getNewsArticles($("#userNewsSource").val(),$("#userNewsCat").val());
+    getNewsArticles($("#userNewsSource").val(), $("#userNewsCat").val());
   });
 
   // this will save user data in local storage from the setup page when the save button is clicked
   function updateUserData() {
     userData = [];
-    
+
     // this grabs data from the user setup screen and feeds it to local storage
     var data = {
       name: $("#userName").val(),
@@ -237,7 +241,7 @@ $(function () {
     // this pulls the stock & weather info after the user screen has been updated
     getStockInfo(userData[0].stocks);
     getCurrWeather(userData[0].weatherCity);
-    getNewsArticles(userData[0].newsSource,userData[0].newsCat);
+    getNewsArticles(userData[0].newsSource, userData[0].newsCat);
   }
 
 
@@ -247,7 +251,7 @@ $(function () {
     userData = storedUserData;
     getStockInfo(userData[0].stocks);
     getCurrWeather(userData[0].weatherCity);
-    getNewsArticles(userData[0].newsSource,userData[0].newsCat);
+    getNewsArticles(userData[0].newsSource, userData[0].newsCat);
   }
 
   // *** this pulls stock data based on the user selected symbols that are stored in local storage ***
@@ -263,12 +267,12 @@ $(function () {
 
     // this creates the rows and columns for the stock info
     var stockTable = $("#stocks");
-    var stockInfo = $("<div class=row>");
+    var stockInfo = $("<div class='row center-align'>");
 
     var stockSymbolCol = $("<div class=col>");
     // todo - need to left align the txt in these columns.  Should we change the change box to red/green?
-    var stockPriceCol = $("<div class=col right-align>");
-    var stockChangeCol = $("<div class=col right-align>");
+    var stockPriceCol = $("<div class='col right-align'>");
+    var stockChangeCol = $("<div class='col right-align'>");
 
     stockTable.append(stockInfo);
     stockInfo.append(stockSymbolCol, stockPriceCol, stockChangeCol);
@@ -295,8 +299,15 @@ $(function () {
         stockChange = stockData.latestPrice - stockData.previousClose;
 
         var stockSymbolEl = $("</p>").text(stockSymbol);
-        var stockPriceEl = $("</p>").text(stockPrice);
-        var stockChangeEl = $("</p>").text(stockChange);
+        var stockPriceEl = $("</p>").text(stockPrice.toFixed(2));
+        var stockChangeEl = $("</p>").text(stockChange.toFixed(2));
+
+        if(stockChange < 0) {
+          stockChangeEl.css('color', 'red');
+        }
+        if(stockChange > 0) {
+          stockChangeEl.css('color', 'green');
+        }
 
         stockSymbolCol.append(stockSymbolEl);
         stockPriceCol.append(stockPriceEl);
@@ -366,35 +377,35 @@ $(function () {
 
   // #region MY Times
 
-    function getNewsArticles(source,category){
-      if (source === "Guardian")
+  function getNewsArticles(source, category) {
+    if (source === "Guardian")
       return;
 
-  const apiKeyNYTimes = "RW27VlJmKlJGUazGiUKrvhygb5icwzCZ";
+    const apiKeyNYTimes = "RW27VlJmKlJGUazGiUKrvhygb5icwzCZ";
 
-  console.log("News sections in NY Times: ", sectionsNYT);
+    console.log("News sections in NY Times: ", sectionsNYT);
 
-  // var sectionNYT = sectionsNYT[10]; // User will select the section of interest
-  // var urlNYTimes = `https://api.nytimes.com/svc/topstories/v2/${sectionNYT}.json?api-key=${apiKeyNYTimes}`;
-  var urlNYTimes = `https://api.nytimes.com/svc/topstories/v2/`+category+`.json?api-key=${apiKeyNYTimes}`;
-  const articlesNYT = [];
-  $.when($.get(urlNYTimes)).then(processNYTArticles);
+    // var sectionNYT = sectionsNYT[10]; // User will select the section of interest
+    // var urlNYTimes = `https://api.nytimes.com/svc/topstories/v2/${sectionNYT}.json?api-key=${apiKeyNYTimes}`;
+    var urlNYTimes = `https://api.nytimes.com/svc/topstories/v2/` + category + `.json?api-key=${apiKeyNYTimes}`;
+    const articlesNYT = [];
+    $.when($.get(urlNYTimes)).then(processNYTArticles);
 
-  function processNYTArticles(response) {
-    const newsContainer = $("#news");
-    console.log("NYT Articles");
-    for (let i = 0; i < TOP; i++) {
-      const result = response.results[i];
-      const a = $("<a>");
-      a.attr("target", "_blank");
-      a.attr("href", result.url);
-      a.text(result.title);
-      newsContainer.append(a);
-      newsContainer.append($("<hr>"));
-      // articlesNYT.push({ title: result.title, link: result.url });
+    function processNYTArticles(response) {
+      const newsContainer = $("#news");
+      console.log("NYT Articles");
+      for (let i = 0; i < TOP; i++) {
+        const result = response.results[i];
+        const a = $("<a>");
+        a.attr("target", "_blank");
+        a.attr("href", result.url);
+        a.text(result.title);
+        newsContainer.append(a);
+        newsContainer.append($("<hr>"));
+        // articlesNYT.push({ title: result.title, link: result.url });
+      }
     }
   }
-}
 
   // these are the timers that refresh the weather & stock data
   // weather = 1 hour; stocks = 15 minutes
