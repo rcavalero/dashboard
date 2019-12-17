@@ -159,10 +159,13 @@ $(function () {
     "sports", "cooking"
   ];
 
-  // this is the function that fills the news category checkbox on the user screen.
-  function fillNewsCat(source) {
-    var newsCat = $("#userNewsCat");
-    // newsCat.html("");
+
+
+// this is the function that fills the news category checkbox on the user screen.
+  function fillNewsCat(source){
+    var newsCat = $("#userNewsCat"); 
+    newsCat.empty();
+   
 
     let newsCategories = [];
     if (source === "NY Times") {
@@ -172,31 +175,34 @@ $(function () {
       newsCategories = sectionsGuardian;
     };
 
-    newsCategories.forEach(function (category) {
-      // source.forEach(function(category) {
-      var catEl = $("<option>");
-      catEl.text(category);
-      catEl.attr("value", category);
-      newsCat.append(catEl);
+
+    newsCategories.forEach(function(category) {
+      newsCat.append($("<option>").attr("value",category).text(category));
+
     })
+    $("#userNewsCat").formSelect()
   };
+
 
   // this will run when the app opens to see if data exists in local storage
   // if there is no data in local storage, the user is directed to the Setup page
   if (!localStorage.getItem("myDashUserData")) {
-    // todo - add code to direct user to the setup page
-    // alert("Enter form data");
+
     startUp();
   }
   // if there is data in local storage it feeds to the userData global variable and fills in the user input form
   else {
     getUserData();
     $("#userName").val(userData[0].name),
-      $("#userCity").val(userData[0].weatherCity),
-      $("#userStocks").val(userData[0].stocks.join()),
-      $("#userNewsSource").val(userData[0].newsSource),
-      fillNewsCat($("#userNewsSource").val());
-    $("#userNewsCat").val(userData[0].newsCat)
+
+    $("#userCity").val(userData[0].weatherCity),
+    $("#userStocks").val(userData[0].stocks.join()),
+    $("#userNewsSource").val(userData[0].newsSource),
+    $("#userNewsSource").formSelect();
+    fillNewsCat($("#userNewsSource").val());
+    $("#userNewsCat").val(userData[0].newsCat);
+    $("#userNewsCat").formSelect();
+
   };
 
   // this runs the function that updates local storage from user input screen
@@ -208,19 +214,23 @@ $(function () {
     updateUserData();
   });
 
-  $("#userNewsSource").change(function (event) {
-    $("#news").html("");
-    // $("#userNewsCat").html("")
+
+  $("#userNewsSource").change(function(event){
+    $("#news").empty();
+    $("#userNewsCat").empty()
+
     // $(this).find(':selected').attr('selected', 'selected') ;
     fillNewsCat($("#userNewsSource").val());
   });
 
-  $("#userNewsCat").change(function (event) {
-    console.log(this);
-    console.log("changed userNewsCat");
-    $("#news").html("");
-    getNewsArticles($("#userNewsSource").val(), $("#userNewsCat").val());
-  });
+
+  // $("#userNewsCat").change(function(event){
+  //   console.log(this);
+  //   console.log("changed userNewsCat");
+  //   $("#news").empty();
+  //   getNewsArticles($("#userNewsSource").val(),$("#userNewsCat").val());
+  // });
+
 
   // this will save user data in local storage from the setup page when the save button is clicked
   function updateUserData() {
@@ -263,7 +273,7 @@ $(function () {
     }
 
     // this empties the stock info so the new info can be loaded.
-    $("#stocks").html("");
+    $("#stocks").empty();
 
     // this creates the rows and columns for the stock info
     var stockTable = $("#stocks");
