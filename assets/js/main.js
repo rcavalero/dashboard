@@ -362,23 +362,24 @@ $(function () {
       // this is where we will either dynamically create elements or feed the weather data to fields in the HTML
 
       var wImage = $("<img>");
-      var temp = $("<p>");
+      var temp = $("<p class=center-align>");
       wImage.attr("src", "assets/images/weatherIcons/" + wIcon + ".png");
       wImage.attr("style", "height: 25%; width: 25%;");
-      temp.text(wTemp + " (F)");
-      temp.attr("style", "color: white;");
+      temp.text(wTemp + " °F");
+      temp.attr("style", "color: white; font-size: 14pt; padding: 0; margin-top: 0px");
       // this shows a description of the icon when you hover your mouse over the icon
       wImage.attr("title", wDesc);
 
       // this creates the header box with city and state
-      $("#weather-box").append("<div class=row>").append("<div class=col>").append("<p>").text(wCity);
+      // $("#weather-box").append("<div class=row>").append("<div class=col>").append("<p>").text(wCity);
+      // wCity.css('font-size', '14pt');
+      $('#weather-card-title').text(wCity);
 
       // // this creates the 2nd row with icon and temp
-      $("#weather-box").append("<div class=row id=wRow2>").append("<div class=col s4>").append(wImage)
-      // .append(temp);
-// console.log(temp);
+      // $("#weather-box").append("<div class=row id=wRow2>").append("<div class='col s1'>").append(wImage)
+      $('#weather-box').append(temp.append(wImage));
 
-       $("#wRow2").append("<div class=col s4>").append(temp);
+      //  $("#wRow2").append("<div class='col s1'>").append(temp);
     });
   }
 
