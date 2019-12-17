@@ -145,7 +145,7 @@
                     <label for="userStocks">Stocks:</label>
                   </div>
                   <div class="col">
-                    <input id="userStocks" type="text" placeholder="Stock symbols separated by commma sbux,msft">
+                    <input id="userStocks" type="text" placeholder="sbux,msft,intc">
                   </div>
                 </div>
 
@@ -153,10 +153,10 @@
                   <div class="col s3">
                     <label for="userNewsSource">News Source:</label>
                   </div>
-                  <div class="col">
-                    <select id="userNewsSource" selected="">
-                      <option value="NY Times"></option>
-                      <option value="Guardian"></option>
+                  <div class="col s6">
+                    <select id="userNewsSource">
+                      <option value="NY Times">NY Times</option>
+                      <option value="Guardian">Guardian</option>
                     </select>
                   </div>
                 </div>
@@ -166,19 +166,8 @@
                     <label for="userNewsCat">News Category:</label>
                   </div>
                   <div class="col">
-                    <select id="userNewsCat" selected="">
-                      <option value="thing 1"></option>
-                      <!-- this will populate from an array based on news source selected -->
-                    </select>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col s3">
-                    <label for="userQuoteType">Quote Type:</label>
-                  </div>
-                  <div class="col">
-                    <select id="userQuoteType" selected="">
+                    <select id="userNewsCat">
+                      <!-- <option value="thing 1"></option> -->
                       <!-- this will populate from an array based on news source selected -->
                     </select>
                   </div>

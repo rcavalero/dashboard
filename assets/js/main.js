@@ -106,7 +106,7 @@ $(function() {
   function fillSavedTask() {
     let tempArr = [];
     tempArr = JSON.parse(localStorage.getItem("taskData"));
-    console.log(tempArr);
+    // console.log(tempArr);
 
     if (tempArr) {
       tempArr.forEach(element => {
@@ -119,57 +119,92 @@ $(function() {
 
 
 
-  }
+  };
 
   // this is a global variable for tracking user data
-  // it has the following fields:
-  // name
-  // weatherCity
-  // stocks
-  // news
-  // quotes
   var userData = [];
+  
+// these are the categories for the NY Times articles
+  const sectionsNYT = [
+    "arts",
+    "automobiles",
+    "books",
+    "business",
+    "fashion",
+    "food",
+    "health",
+    "home",
+    "magazine",
+    "movies",
+    "national",
+    "politics",
+    "realestate",
+    "science",
+    "sports",
+    "technology",
+    "travel",
+    "world"
+  ];
+
+// this is the function that fills the news category checkbox on the user screen.  Still working on it
+  // // add argument for newsSource
+  function fillNewsCat(){
+    var newsCat = $("#userNewsCat"); 
+
+    sectionsNYT.forEach(function(category) {
+      var catEl = $("<option>");
+      catEl.text(category);
+      catEl.attr("value", category);
+      newsCat.append(catEl);
+    })
+    };
+
+    fillNewsCat();
 
   // this will run when the app opens to see if data exists in local storage
   // if there is no data in local storage, the user is directed to the Setup page
   if (!localStorage.getItem("myDashUserData")) {
+
     // todo - add code to direct user to the setup page
-
-    // once the setup page is setup and has a save button, we need to delete the following line and
-    // update the save button click function below
-    updateUserData();
+    alert("Enter form data");
   }
+  // if there is data in local storage it feeds to the userData global variable and fills in the user input form
+  else {
+    getUserData();
+    $("#userName").val(userData[0].name),
+    $("#userCity").val(userData[0].weatherCity),
+    $("#userStocks").val(userData[0].stocks.join()),
+    $("#userNewsSource").val(userData[0].newsSource),
+    $("#userNewsCat").val(userData[0].newsCat)
+  };
+  
+// this runs the function that updates local storage from user input screen
+  $("#userSaveBtn").on("click", function(event) {
+      event.preventDefault;
+      updateUserData();
+  });
 
-  // if there is data in local storage it feeds to the userData global variable
-  else getUserData();
-
-  // todo - update function based on save button info on user setup screen
-  // $("save button").on("click", function(event) {
-  //     event.preventDefault;
-  //     updateUserData();
-  // });
-
-  // this will save user data in local storage from the setup page
+  // this will save user data in local storage from the setup page when the save button is clicked
   function updateUserData() {
-    // this grabs data from the user setup screen
-    // todo - need to update from HTML
-    var setupData = $("setupDiv");
+    userData = [];
 
+    // this grabs data from the user setup screen and feeds it to local storage
     var data = {
-      name: "Robert",
-      weatherCity: "",
-      stocks: ["intc", "msft", "sbux"]
+      // name: "Robert",
+      // weatherCity: "",
+      // stocks: ["intc", "msft", "sbux"]
 
-      // name: setupData.setupName.val(),
-      // weatherCity: setupData.setupCity.val(),
-      // stocks: setupData.setupStocks.val().split(","),
-      // news: setupData.setupNews.val(),
-      // quotes: setupData.setupQuotes.val()
+      name: $("#userName").val(),
+      weatherCity: $("#userCity").val(),
+      stocks:  $("#userStocks").val().split(","),
+      newsSource: $("#userNewsSource").val(),
+      newsCat: $("#userNewsCat").val()
     };
-    // this loads user setup data into the userData global variable stores it to local storage
-    // and pulls the stock & weather info
+    // this loads user setup data into the userData global variable and stores it to local storage
     userData.push(data);
     localStorage.setItem("myDashUserData", JSON.stringify(userData));
+
+    // this pulls the stock & weather info after the user screen has been updated
     getStockInfo(userData[0].stocks);
     getCurrWeather(userData[0].weatherCity);
     // todo - add the other functions for pulling quotes and news
@@ -188,6 +223,7 @@ $(function() {
   // *** this pulls stock data based on the user selected symbols that are stored in local storage ***
   function getStockInfo(stocks) {
     // this checks if there are stocks to pull data on and returns if not
+    
     if (!stocks) {
       return;
     }
@@ -221,7 +257,6 @@ $(function() {
       };
 
       $.ajax(settings).done(function(response) {
-        // console.log(response);
 
         var stockData = response.quote;
 
@@ -286,9 +321,6 @@ $(function() {
     });
   }
 
-  // todo - need to determine how often we want to update stock and other pulled data
-  // window.setInterval(getStockInfo, 60 * 1000);
-
   /* Inspirational Quote */
 
   var urlRandomQuote = "https://quote-garden.herokuapp.com/quotes/random";
@@ -305,27 +337,6 @@ $(function() {
   // #region MY Times
 
   const apiKeyNYTimes = "RW27VlJmKlJGUazGiUKrvhygb5icwzCZ";
-
-  const sectionsNYT = [
-    "arts",
-    "automobiles",
-    "books",
-    "business",
-    "fashion",
-    "food",
-    "health",
-    "home",
-    "magazine",
-    "movies",
-    "national",
-    "politics",
-    "realestate",
-    "science",
-    "sports",
-    "technology",
-    "travel",
-    "world"
-  ];
 
   console.log("News sections in NY Times: ", sectionsNYT);
 
