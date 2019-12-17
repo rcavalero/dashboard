@@ -1,6 +1,6 @@
 let taskInput; let taskArr;
 
-$(function() {
+$(function () {
   // materialize init
   M.AutoInit();
   fillSavedTask();
@@ -9,13 +9,23 @@ $(function() {
   grabMoment();
   $(".date").text(moment().format("ddd, MMM Do"));
 
+  let main = $('#mainContainer');
+  let admin = $('#prompt-container');
+
+  main.hide();
+
+  function startUp() {
+    main.show();
+    admin.hide();
+  }
+
   function addTask() {
-    $("#taskInput").keyup(function(e) {
+    $("#taskInput").keyup(function (e) {
       if (e.keyCode === 13) {
         $("#addTaskButton").click();
       }
     });
-    $("#addTaskButton").click(function(e) {
+    $("#addTaskButton").click(function (e) {
       e.preventDefault();
       let taskInput = $("#taskInput").val().toLowerCase();
 
@@ -34,14 +44,11 @@ $(function() {
     let icon = $(`<i class="material-icons check-icon">`);
     icon.text("panorama_fish_eye");
 
-    col1.click(function(e) {
+    col1.click(function (e) {
       e.preventDefault();
       icon.text("check_circle");
       if (icon.text() === 'check_circle') {
-        // let help;
-        // help = $(this).siblings().children().val();
-        // console.log(help);
-        // console.log(taskArr);
+
         removeTask($(this));
         removeFromLocal($(this));
 
@@ -59,7 +66,7 @@ $(function() {
   }
 
   function searchAmazon() {
-    $("#search-amazon").keyup(function(e) {
+    $("#search-amazon").keyup(function (e) {
       let searchItem = $("#search-amazon").val();
       if (e.keyCode === 13 && searchItem) {
         let url = `https://www.amazon.com/s?k=${searchItem}`;
@@ -89,12 +96,10 @@ $(function() {
     let temp = JSON.parse(localStorage.getItem('taskData')) || [];
 
     let ind = temp.indexOf(word);
-    if(ind > -1) {
+    if (ind > -1) {
       temp.splice(ind, 1);
       localStorage.setItem('taskData', JSON.stringify(temp));
     }
-    console.log(ind);
-
   }
 
   function addToLocalStorage(word) {
@@ -123,8 +128,8 @@ $(function() {
 
   // this is a global variable for tracking user data
   var userData = [];
-  
-// these are the categories for the NY Times articles
+
+  // these are the categories for the NY Times articles
   const sectionsNYT = [
     "arts",
     "automobiles",
@@ -146,42 +151,45 @@ $(function() {
     "world"
   ];
 
-// this is the function that fills the news category checkbox on the user screen.  Still working on it
+  // this is the function that fills the news category checkbox on the user screen.  Still working on it
   // // add argument for newsSource
-  function fillNewsCat(){
-    var newsCat = $("#userNewsCat"); 
+  function fillNewsCat() {
+    var newsCat = $("#userNewsCat");
 
-    sectionsNYT.forEach(function(category) {
+    sectionsNYT.forEach(function (category) {
       var catEl = $("<option>");
       catEl.text(category);
       catEl.attr("value", category);
       newsCat.append(catEl);
     })
-    };
+  };
 
-    fillNewsCat();
+  fillNewsCat();
 
   // this will run when the app opens to see if data exists in local storage
   // if there is no data in local storage, the user is directed to the Setup page
   if (!localStorage.getItem("myDashUserData")) {
 
     // todo - add code to direct user to the setup page
-    alert("Enter form data");
+    // alert("Enter form data");
+    startUp();
   }
   // if there is data in local storage it feeds to the userData global variable and fills in the user input form
   else {
     getUserData();
     $("#userName").val(userData[0].name),
-    $("#userCity").val(userData[0].weatherCity),
-    $("#userStocks").val(userData[0].stocks.join()),
-    $("#userNewsSource").val(userData[0].newsSource),
-    $("#userNewsCat").val(userData[0].newsCat)
+      $("#userCity").val(userData[0].weatherCity),
+      $("#userStocks").val(userData[0].stocks.join()),
+      $("#userNewsSource").val(userData[0].newsSource),
+      $("#userNewsCat").val(userData[0].newsCat)
   };
-  
-// this runs the function that updates local storage from user input screen
-  $("#userSaveBtn").on("click", function(event) {
-      event.preventDefault;
-      updateUserData();
+
+  // this runs the function that updates local storage from user input screen
+  $("#userSaveBtn").on("click", function (event) {
+    event.preventDefault();
+    console.log('clicked');
+    startUp();
+    updateUserData();
   });
 
   // this will save user data in local storage from the setup page when the save button is clicked
@@ -196,7 +204,7 @@ $(function() {
 
       name: $("#userName").val(),
       weatherCity: $("#userCity").val(),
-      stocks:  $("#userStocks").val().split(","),
+      stocks: $("#userStocks").val().split(","),
       newsSource: $("#userNewsSource").val(),
       newsCat: $("#userNewsCat").val()
     };
@@ -223,7 +231,7 @@ $(function() {
   // *** this pulls stock data based on the user selected symbols that are stored in local storage ***
   function getStockInfo(stocks) {
     // this checks if there are stocks to pull data on and returns if not
-    
+
     if (!stocks) {
       return;
     }
@@ -244,7 +252,7 @@ $(function() {
     stockInfo.append(stockSymbolCol, stockPriceCol, stockChangeCol);
 
     // This loops through each stock symbol and adds the info to the above columns for each stock
-    stocks.forEach(function(stock) {
+    stocks.forEach(function (stock) {
       var settings = {
         async: true,
         crossDomain: true,
@@ -256,7 +264,7 @@ $(function() {
         }
       };
 
-      $.ajax(settings).done(function(response) {
+      $.ajax(settings).done(function (response) {
 
         var stockData = response.quote;
 
@@ -292,7 +300,7 @@ $(function() {
     $.ajax({
       url: queryWeatherURL,
       method: "GET"
-    }).then(function(response) {
+    }).then(function (response) {
       // console.log("weather data");
 
       // console.log(response);
