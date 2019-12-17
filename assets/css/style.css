@@ -10,7 +10,7 @@
 }
 
 body {
-  background: url('../images/northern-lights-5.jpg') center no-repeat;
+  background: url('../images/northern-lights-6.jpg') center no-repeat;
   background-color: #212121;
   background-size: cover;
   background-attachment: fixed;
@@ -116,10 +116,6 @@ input #taskInput {
 
 ::placeholder {
   color: white !important;
-}
-
-input:active {
-  color: purple !important;
 }
 
 .card-content label {
