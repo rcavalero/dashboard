@@ -161,11 +161,11 @@ $(function () {
 
 
 
-// this is the function that fills the news category checkbox on the user screen.
-  function fillNewsCat(source){
-    var newsCat = $("#userNewsCat"); 
+  // this is the function that fills the news category checkbox on the user screen.
+  function fillNewsCat(source) {
+    
+    var newsCat = $("#userNewsCat");
     newsCat.empty();
-   
 
     let newsCategories = [];
     if (source === "NY Times") {
@@ -175,10 +175,8 @@ $(function () {
       newsCategories = sectionsGuardian;
     };
 
-
-    newsCategories.forEach(function(category) {
-      newsCat.append($("<option>").attr("value",category).text(category));
-
+    newsCategories.forEach(function (category) {
+      newsCat.append($("<option>").attr("value", category).text(category));
     })
     $("#userNewsCat").formSelect()
   };
@@ -195,10 +193,10 @@ $(function () {
     getUserData();
     $("#userName").val(userData[0].name),
 
-    $("#userCity").val(userData[0].weatherCity),
-    $("#userStocks").val(userData[0].stocks.join()),
-    $("#userNewsSource").val(userData[0].newsSource),
-    $("#userNewsSource").formSelect();
+      $("#userCity").val(userData[0].weatherCity),
+      $("#userStocks").val(userData[0].stocks.join()),
+      $("#userNewsSource").val(userData[0].newsSource),
+      $("#userNewsSource").formSelect();
     fillNewsCat($("#userNewsSource").val());
     $("#userNewsCat").val(userData[0].newsCat);
     $("#userNewsCat").formSelect();
@@ -215,15 +213,19 @@ $(function () {
   });
 
 
-  $("#userNewsSource").change(function(event){
-    console.log("changed news source");
-    
+  $("#userNewsSource").on("change",function (event) {
+    console.log("changed news source", event.target.value);
+    // console.log("jquery this", $(this));
+
     $("#userNewsSource").formSelect();
     $("#news").empty();
     $("#userNewsCat").empty()
 
     // $(this).find(':selected').attr('selected', 'selected') ;
     fillNewsCat($("#userNewsSource").val());
+    console.log($("#userNewsSource").val());
+    
+
   });
 
 
@@ -315,10 +317,10 @@ $(function () {
         var stockPriceEl = $("</p>").text(stockPrice.toFixed(2));
         var stockChangeEl = $("</p>").text(stockChange.toFixed(2));
 
-        if(stockChange < 0) {
+        if (stockChange < 0) {
           stockChangeEl.css('color', 'red');
         }
-        if(stockChange > 0) {
+        if (stockChange > 0) {
           stockChangeEl.css('color', 'green');
         }
 
@@ -376,9 +378,9 @@ $(function () {
       // // this creates the 2nd row with icon and temp
       $("#weather-box").append("<div class=row id=wRow2>").append("<div class=col s4>").append(wImage)
       // .append(temp);
-// console.log(temp);
+      // console.log(temp);
 
-       $("#wRow2").append("<div class=col s4>").append(temp);
+      $("#wRow2").append("<div class=col s4>").append(temp);
     });
   }
 
