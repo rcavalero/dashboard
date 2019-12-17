@@ -70,9 +70,9 @@ $(function() {
   }
 
   function grabMoment() {
-    let momentBox = $('<div class="card z-depth-0" id=momentBox>');
+    let momentBox = $('<div class=" z-depth-0" id=momentBox>');
     let innerMomentBox = $("<div class=card-body id=innerMomentBox>");
-    let time = $('<div class="card-title center-align" id=time>');
+    let time = $('<div class="card-title center-align" id=time style="background: none">');
     setInterval(() => {
       time.text(moment().format("h:mm"));
     }, 1000);

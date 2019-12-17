@@ -6,11 +6,11 @@
   padding: 0; */
   font-family: 'Rubik', sans-serif;
   color: white;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 body {
-  background: url('../images/northern-lights-3.jpg') center no-repeat;
+  background: url('../images/northern-lights-5.jpg') center no-repeat;
   background-color: #212121;
   background-size: cover;
   background-attachment: fixed;
@@ -52,31 +52,31 @@ input:focus {
   /* margin-top: 230px; */
 }
 
+.card, .waves-light, #quote-div{
+  background-color:rgba(255, 255, 255, 0.3) !important;
+
+}
+
 input #taskInput {
   padding-right: 20px;
 }
 
-#frosted::before {
-  /* position: relative;
-  border-radius: 3px;
-  background: inherit;
-  border: red 2px solid;
-  box-shadow: inset 0 0 0 200px rgba(255,255,255,0.05);
-  filter: blur(10px);  */
-  background-color: white;
-  opacity: 15%;
-}
-
-#inFrosted {
-  /* position: absolute; */
+#frosted {
+  background-color:rgba(255, 255, 255, 0.3);
 }
 
 #time,
 #momentBox {
-  padding-top: 100px;
+  margin-top: 200px;
+  top: 100px;
   font-size: 100pt;
   background-color: transparent;
   font-family: 'Roboto Mono', monospace;
+  background-color: none !important;
+}
+
+#quote-row {
+  top: 120px;
 }
 
 ::placeholder {
