@@ -39,8 +39,7 @@
                 <table>
                   <tbody>
                     <tr class="firstTask">
-                      <td><a class="btn-floating btn-medium waves-effect waves-light" id="addTaskButton"><i
-                            class="material-icons">add</i></a>
+                      <td><a class="btn-floating btn-medium waves-effect waves-light" id="addTaskButton"><i class="material-icons">add</i></a>
                       </td>
                       <td><input class="right-align" type="text" id="taskInput" placeholder="enter task"></td>
                     </tr>
@@ -57,7 +56,7 @@
           <div class="row footy">
             <div class="col s12">
               <div class="card grey darken-4" id="stock-box">
-                <div class="card-title center-align">update</div>
+                <div class="card-title center-align">currently</div>
                 <div id="news"></div>
                 <div id="stocks"></div>
               </div>
@@ -96,10 +95,10 @@
         <!-- weather row -->
         <footer class="weather-box">
           <div class="row weather-row">
-            <div class="col s3 offset-s9">
+            <div class="col s2 offset-s10">
               <div class="card grey darken-4" id="weather-box">
-                <div class="card-body weather-card">
-                  <div class="card-title weather-card">
+                <div class="card-body weather-card" id="weather-card">
+                  <div class="card-title weather-card center-align" id='weather-card-title'>
                     wx
                   </div>
                 </div>
@@ -128,7 +127,7 @@
                     <label for="userName">Name:</label>
                   </div>
                   <div class="col">
-                    <input id="userName" type="text" placeholder="User Name">
+                    <input id="userName" type="text" placeholder="Enter user name">
                   </div>
                 </div>
                 
@@ -137,7 +136,7 @@
                     <label for="userCity">City:</label>
                   </div>
                   <div class="col">
-                    <input id="userCity" type="text" placeholder="City for weather">
+                    <input id="userCity" type="text" placeholder="Enter your city">
                   </div>
                 </div>
 
@@ -146,7 +145,7 @@
                     <label for="userStocks">Stocks:</label>
                   </div>
                   <div class="col">
-                    <input id="userStocks" type="text" placeholder="sbux,msft,intc">
+                    <input id="userStocks" type="text" placeholder="Enter stock tickers">
                   </div>
                 </div>
 
@@ -154,7 +153,7 @@
                   <div class="col s3">
                     <label for="userNewsSource">News Source:</label>
                   </div>
-                  <div class="col s6">
+                  <div class="col s6 browser-default">
                     <select id="userNewsSource">
                       <option value="" disabled selected>Select News Source</option>
                       <option value="sectionsNYT">NY Times</option>
@@ -202,7 +201,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<<<<<<< HEAD
   <!-- <script src="./assets/js/particle.js"></script> -->
+=======
+>>>>>>> d44bf01c9dbb41964f39fabfd46e1d7db22c2704
   <script src="./assets/js/main.js"></script>
 </body>
 

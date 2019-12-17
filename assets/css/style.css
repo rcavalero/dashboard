@@ -84,10 +84,6 @@ input #taskInput {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-#taskInput {
-  
-}
-
 #momentRow {
   margin-top: 180px;
   margin-bottom: 0px;
@@ -98,7 +94,9 @@ input #taskInput {
 }
 
 #weather-box {
-  margin-top: 100px;
+  margin-top: 150px;
+  align-items: center !important;
+  opacity: 70%;
 }
 
 #time,
@@ -109,6 +107,7 @@ input #taskInput {
   font-family: 'Roboto Mono', monospace;
   background-color: none !important;
 }
+
 
 #quote-row {
   top: 120px;
