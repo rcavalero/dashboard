@@ -10,7 +10,7 @@ My Dash currently has the following functionality:
  5. Includes an area to keep track or your current tasks.
  6. Allows user to quickly search for items on Amazon.com!
 
-The application is located here: [My Dash](https://aritse.github.io/dashboard/) 
+The application is located here: [My Dash](https://rcavalero.github.io/dashboard/) 
 
 The application consists of one page:
 ![image](assets/images/myDash.png) 
